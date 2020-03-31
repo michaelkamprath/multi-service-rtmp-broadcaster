@@ -33,8 +33,8 @@ You could start this docker with no stream keys defined, but that wouldn't do an
 
 Once the Docker image is running, set up your stream software with the following paramters:
 
-* *Server* - `rtmp://<docker_host_IP_address>/live`
-* *Stream Key* - `__made_up_stream_name__?pwd=__made_up_password__` : Here `__made_up_stream_name__` is any arbitrary stream name, and `__made_up_password__` is the same password defined for `MULTISTEAMING_PASSWORD` above.
+* **Server** : `rtmp://__docker_host_IP_address__/live` - Replace `__docker_host_IP_address__` with the IP address of your host that is running this Docker container.
+* **Stream Key** : `__made_up_stream_name__?pwd=__made_up_password__` - Here `__made_up_stream_name__` is any arbitrary stream name, and `__made_up_password__` is the same password defined for `MULTISTEAMING_PASSWORD` above.
 
 In OBS, you would set the above parameters for a "Custom..." Service in the Stream settings.
 

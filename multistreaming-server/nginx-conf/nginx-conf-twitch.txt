@@ -8,6 +8,6 @@
 			deny publish all;
 
 			# Push URL with the Twitch stream key
-			push rtmp://live-cdg.twitch.tv/app/${MULTISTEAMING_KEY_TWITCH};
+			push rtmp://live-cdg.twitch.tv/app/${MULTISTREAMING_KEY_TWITCH};
 		}
 

@@ -36,7 +36,7 @@ http {
         }
 
 		location /auth {
-			if (${DOLLAR}arg_pwd = '${MULTISTEAMING_PASSWORD}') {
+			if (${DOLLAR}arg_pwd = '${MULTISTREAMING_PASSWORD}') {
 				return 200;
 			}
 			return 401;

@@ -3,11 +3,11 @@
 			live on;
 			record off;
 
-			#Only allow localhost to publish
+			# Only allow localhost to publish
 			allow publish 127.0.0.1;
 			deny publish all;
 
 			# Push URL with the YouTube stream key
-			push rtmp://a.rtmp.youtube.com/live2/{MULTISTREAMING_KEY_YOUTUBE};
+			push rtmp://a.rtmp.youtube.com/live2/${MULTISTREAMING_KEY_YOUTUBE};
 		}
 

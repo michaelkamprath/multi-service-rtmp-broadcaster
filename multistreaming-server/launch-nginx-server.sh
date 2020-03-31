@@ -1,4 +1,4 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 export DOLLAR='$'
 
 # construct the nginx.conf based on environment variable definitions

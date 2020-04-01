@@ -21,6 +21,11 @@ if [[ -v MULTISTREAMING_KEY_YOUTUBE ]]; then
 	sed -e "s/##PUSH_YOUTUBE_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
+if [[ -v MULTISTREAMING_KEY_CUSTOM ]]; then
+	envsubst < nginx-conf-custom.txt >>  /usr/local/nginx/conf/nginx.conf
+	sed -e "s/##PUSH_CUSTOM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
+fi
+
 envsubst < nginx-conf-suffix.txt >>  /usr/local/nginx/conf/nginx.conf
 
 # finally, launch nginx

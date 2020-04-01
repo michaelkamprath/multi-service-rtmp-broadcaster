@@ -110,7 +110,7 @@ http {
     #}
 
 }
- 
+
 rtmp {
 	server {
 		listen 1935;
@@ -124,8 +124,8 @@ rtmp {
 			record_path /var/www/html/recordings;
 			record_unique on;
 			# Define the applications to which the stream will be pushed, comment them out to disable the ones not needed:
-##PUSH_TWITCH_MARKER##			push rtmp://localhost/twitch;
-##PUSH_FACEBOOK_MARKER##			push rtmp://localhost/facebook;
-##PUSH_YOUTUBE_MARKER##			push rtmp://localhost/youtube;
+##PUSH_TWITCH_MARKER##   push rtmp://localhost/twitch;
+##PUSH_FACEBOOK_MARKER##   push rtmp://localhost/facebook;
+##PUSH_YOUTUBE_MARKER##   push rtmp://localhost/youtube;
+##PUSH_CUSTOM_MARKER##   push rtmp://localhost/custom;
 		}
-

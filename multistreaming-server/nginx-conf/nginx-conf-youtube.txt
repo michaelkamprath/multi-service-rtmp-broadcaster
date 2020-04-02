@@ -1,4 +1,4 @@
-		# YouTube Stream Application  
+		# YouTube Stream Application
 		application youtube {
 			live on;
 			record off;
@@ -10,4 +10,3 @@
 			# Push URL with the YouTube stream key
 			push rtmp://a.rtmp.youtube.com/live2/${MULTISTREAMING_KEY_YOUTUBE};
 		}
-

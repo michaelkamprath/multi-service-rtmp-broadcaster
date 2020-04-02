@@ -8,7 +8,7 @@ envsubst < nginx-conf-prefix.txt >  /usr/local/nginx/conf/nginx.conf
 if [ $MULTISTREAMING_KEY_FACEBOOK ]; then
 	envsubst < nginx-conf-facebook.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_FACEBOOK_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
-	/usr/bin/stunnel4 &
+	/usr/bin/stunnel &
 fi
 
 if [ $MULTISTREAMING_KEY_TWITCH ]; then

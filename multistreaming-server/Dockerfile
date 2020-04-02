@@ -8,6 +8,11 @@ ARG RTMP_MODULE_VERSION=fix-build-with-gcc8
 RUN set -x \
  && addgroup -g 82 -S www-data \
  && adduser -u 82 -D -S -G www-data www-data \
+ && addgroup -S stunnel \
+ && adduser -S -D -H -h /dev/null -s /sbin/nologin -G stunnel -g stunnel stunnel \
+ && echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
+ && apk update \
+ && apk add --no-cache --update stunnel ca-certificates \
  && apk add --no-cache pcre openssl ffmpeg stunnel gettext \
  && apk add --no-cache --virtual build-deps build-base pcre-dev openssl-dev zlib zlib-dev wget make \
  && wget -O nginx-${NGINX_VERSION}.tar.gz http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
@@ -20,12 +25,14 @@ RUN set -x \
  && make install\
  && apk del build-deps \
  && mkdir -p /var/www/html/recordings \
- && chown www-data:www-data -R /var/www/html
+ && mkdir -p /var/run/stunnel/ \
+ && chown www-data:www-data -R /var/www/html \
+ && chown stunnel:stunnel /var/run/stunnel/
 
 COPY index.html /usr/local/nginx/html/
 COPY nginx-conf/nginx-conf-*.txt /
 COPY launch-nginx-server.sh launch-nginx-server.sh
-COPY stunnel-conf/etc-default-stunnel4 /etc/default/stunnel4
+COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
 COPY stunnel-conf/etc-stunnel-conf.d-fb.conf /etc/stunnel/conf.d/fb.conf
 COPY stunnel-conf/etc-stunnel-stunnel.conf /etc/stunnel/stunnel.conf
 

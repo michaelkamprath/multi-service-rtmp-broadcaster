@@ -23,7 +23,9 @@ docker run -it -p 80:80 -p 1935:1935 \
   multistreaming-server:latest
 ```
 
-Note that several environment variables are set:
+Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` Docker image. 
+
+Note that several environment variables are set when running the Docker image:
 
 * `MULTISTREAMING_PASSWORD` _(REQUIRED)_ - This is a password you define and will be used by your steaming software. This is a marginally secure way to prevent other people from pushing to your stream. 
 * `MULTISTREAMING_KEY_TWITCH` _(OPTIONAL)_ - Your Twitch stream key. Only define if you want to rebroadcast your stream to Twitch.

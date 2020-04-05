@@ -19,6 +19,7 @@ docker run -it -p 80:80 -p 1935:1935 \
   --env "MULTISTREAMING_KEY_TWITCH=__your_twitch_stream_key__" \
   --env "MULTISTREAMING_KEY_FACEBOOK=__your_facebook_stream_key__" \
   --env "MULTISTREAMING_KEY_YOUTUBE=__your_youtube_stream_key__" \  
+  --env "MULTISTREAMING_KEY_MICROSOFTSTREAM=__your_microsoft_stream_ingest_url__" \ 
   --env "MULTISTREAMING_KEY_CUSTOM=__your_full_rtmp_url__" \ 
   multistreaming-server:latest
 ```
@@ -29,6 +30,7 @@ Note that several environment variables are set:
 * `MULTISTREAMING_KEY_TWITCH` _(OPTIONAL)_ - Your Twitch stream key. Only define if you want to rebroadcast your stream to Twitch.
 * `MULTISTREAMING_KEY_FACEBOOK` _(OPTIONAL)_ - Your Facebook stream key. Only define if you want to rebroadcast your stream to Facebook.
 * `MULTISTREAMING_KEY_YOUTUBE` _(OPTIONAL)_ - Your YouTube stream key. Only define if you want to rebroadcast your stream to YouTube.
+* `MULTISTREAMING_KEY_MICROSOFTSTREAM` _(OPTIONAL)_ - Your Microsoft Stream Ingest URL. Only define if you want to rebroadcast your stream to Microsoft Stream.
 * `MULTISTREAMING_KEY_CUSTOM` _(OPTIONAL)_ - Your full RTMP url, including rtmp://, to any live stream service. Only define if you want to rebroadcast your stream to a custom service.
 
 You could start this docker with no stream keys defined, but that wouldn't do anything interesting then.

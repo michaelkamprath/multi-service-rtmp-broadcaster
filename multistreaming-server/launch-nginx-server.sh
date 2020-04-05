@@ -21,6 +21,14 @@ if [ $MULTISTREAMING_KEY_YOUTUBE ]; then
 	sed -e "s/##PUSH_YOUTUBE_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
+if [ $MULTISTREAMING_KEY_PERISCOPE ]; then
+	if [ !$PERISCOPE_REGION_ID ]; then
+		export PERISCOPE_REGION_ID='ca'
+	fi
+	envsubst < nginx-conf-periscope.txt >>  /usr/local/nginx/conf/nginx.conf
+	sed -e "s/##PUSH_PERISCOPE_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
+fi
+
 if [ $MULTISTREAMING_KEY_CUSTOM ]; then
 	envsubst < nginx-conf-custom.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_CUSTOM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf

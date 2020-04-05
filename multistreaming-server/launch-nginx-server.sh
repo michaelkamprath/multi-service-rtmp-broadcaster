@@ -1,29 +1,36 @@
-#!/usr/bin/env bash
+#!/usr/bin/env sh
 export DOLLAR='$'
 
 # construct the nginx.conf based on environment variable definitions
 
 envsubst < nginx-conf-prefix.txt >  /usr/local/nginx/conf/nginx.conf
 
-if [[ -v MULTISTREAMING_KEY_FACEBOOK ]]; then
+if [ $MULTISTREAMING_KEY_FACEBOOK ]; then
 	envsubst < nginx-conf-facebook.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_FACEBOOK_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
-	/usr/bin/stunnel4 &
+	/usr/bin/stunnel &
 fi
 
-if [[ -v MULTISTREAMING_KEY_TWITCH ]]; then
+if [ $MULTISTREAMING_KEY_TWITCH ]; then
 	envsubst < nginx-conf-twitch.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_TWITCH_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
-if [[ -v MULTISTREAMING_KEY_YOUTUBE ]]; then
+if [ $MULTISTREAMING_KEY_YOUTUBE ]; then
 	envsubst < nginx-conf-youtube.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_YOUTUBE_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
-if [[ -v MULTISTREAMING_KEY_CUSTOM ]]; then
+if [ $MULTISTREAMING_KEY_CUSTOM ]; then
 	envsubst < nginx-conf-custom.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_CUSTOM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
+fi
+
+if [ $MULTISTREAMING_KEY_MICROSOFTSTREAM ]; then
+	export MICROSOFTSTREAMRTMP=${MULTISTREAMING_KEY_MICROSOFTSTREAM%/live/*}
+	export MICROSOFTSTREAMAPPNAME=live/${MULTISTREAMING_KEY_MICROSOFTSTREAM#*/live/}
+	envsubst \${MICROSOFTSTREAMRTMP},\${MICROSOFTSTREAMAPPNAME} < nginx-conf-microsoftstream.txt >>  /usr/local/nginx/conf/nginx.conf
+	sed -e "s/##PUSH_MICROSOFTSTREAM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
 envsubst < nginx-conf-suffix.txt >>  /usr/local/nginx/conf/nginx.conf

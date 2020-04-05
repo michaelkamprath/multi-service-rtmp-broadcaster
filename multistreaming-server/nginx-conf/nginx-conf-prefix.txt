@@ -128,4 +128,5 @@ rtmp {
 ##PUSH_FACEBOOK_MARKER##   push rtmp://localhost/facebook;
 ##PUSH_YOUTUBE_MARKER##   push rtmp://localhost/youtube;
 ##PUSH_CUSTOM_MARKER##   push rtmp://localhost/custom;
+##PUSH_MICROSOFTSTREAM_MARKER##   push rtmp://localhost/microsoftstream;
 		}

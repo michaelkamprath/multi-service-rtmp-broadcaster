@@ -9,10 +9,9 @@
 
 			# need to transcode Periscope since it is particular about video and audio
 			exec ffmpeg -re -i rtmp://localhost:1935/${DOLLAR}app/${DOLLAR}name 
-						-c:v libx264 -s 1280x720 -b:v 2500k -bufsize 1M -r 30 -x264opts "keyint=90:min-keyint=90:no-scenecut"
-						-c:a aac -b:a 128k
-						-f flv rtmp://localhost:1935/periscope/${DOLLAR}{name};
-
+				-c:v libx264 -s 1280x720 -b:v 2500k -bufsize 1M -r 30 -x264opts "keyint=90:min-keyint=90:no-scenecut"
+				-c:a aac -b:a 128k
+				-f flv rtmp://localhost:1935/periscope/${DOLLAR}{name};
 		}
 
 		application periscope {

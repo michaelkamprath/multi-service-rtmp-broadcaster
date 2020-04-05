@@ -20,6 +20,8 @@ docker run -it -p 80:80 -p 1935:1935 \
   --env "MULTISTREAMING_KEY_FACEBOOK=__your_facebook_stream_key__" \
   --env "MULTISTREAMING_KEY_YOUTUBE=__your_youtube_stream_key__" \  
   --env "MULTISTREAMING_KEY_CUSTOM=__your_full_rtmp_url__" \ 
+  --env "MULTISTREAMING_KEY_PERISCOPE=__your_periscope_stream_key__" \
+  --env "PERISCOPE_REGION_ID=__periscope_2-letter_region_code__" \
   multistreaming-server:latest
 ```
 
@@ -32,6 +34,8 @@ Note that several environment variables are set when running the Docker image:
 * `MULTISTREAMING_KEY_FACEBOOK` _(OPTIONAL)_ - Your Facebook stream key. Only define if you want to rebroadcast your stream to Facebook.
 * `MULTISTREAMING_KEY_YOUTUBE` _(OPTIONAL)_ - Your YouTube stream key. Only define if you want to rebroadcast your stream to YouTube.
 * `MULTISTREAMING_KEY_CUSTOM` _(OPTIONAL)_ - Your full RTMP url, including rtmp://, to any live stream service. Only define if you want to rebroadcast your stream to a custom service.
+* `MULTISTREAMING_KEY_PERISCOPE` _(OPTIONAL)_ - Your Periscope sream key. Only define if you want to rebroadcast your stream to Periscope.
+* `PERISCOPE_REGION_ID` _(OPTIONAL)_ - The two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
 
 You could start this docker with no stream keys defined, but that wouldn't do anything interesting then.
 

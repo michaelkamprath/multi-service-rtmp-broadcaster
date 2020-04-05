@@ -42,6 +42,23 @@ http {
 			return 401;
 		}
 
+        # This URL provides RTMP statistics in XML
+        location /stat {
+            rtmp_stat all;
+
+            # Use this stylesheet to view XML as web page
+            # in browser
+            rtmp_stat_stylesheet stat.xsl;
+        }
+
+        location /stat.xsl {
+            # XML stylesheet to view RTMP stats.
+            # Copy stat.xsl wherever you want
+            # and put the full directory path here
+            root /usr/local/nginx/html/;
+        }
+
+
         #error_page  404              /404.html;
 
         # redirect server error pages to the static page /50x.html
@@ -128,4 +145,5 @@ rtmp {
 ##PUSH_FACEBOOK_MARKER##   push rtmp://localhost/facebook;
 ##PUSH_YOUTUBE_MARKER##   push rtmp://localhost/youtube;
 ##PUSH_CUSTOM_MARKER##   push rtmp://localhost/custom;
+##PUSH_PERISCOPE_MARKER##   push rtmp://localhost/periscope_transcode;
 		}

@@ -6,8 +6,6 @@ ARG RTMP_REPO=defanator
 ARG RTMP_MODULE_VERSION=fix-build-with-gcc8
 
 RUN set -x \
- && addgroup -g 82 -S www-data \
- && adduser -u 82 -D -S -G www-data www-data \
  && addgroup -S stunnel \
  && adduser -S -D -H -h /dev/null -s /sbin/nologin -G stunnel -g stunnel stunnel \
  && echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
@@ -26,7 +24,7 @@ RUN set -x \
  && apk del build-deps \
  && mkdir -p /var/www/html/recordings \
  && mkdir -p /var/run/stunnel/ \
- && chown www-data:www-data -R /var/www/html \
+ && chown nobody:nobody -R /var/www/html \
  && chown stunnel:stunnel /var/run/stunnel/
 
 COPY index.html /usr/local/nginx/html/
@@ -35,6 +33,12 @@ COPY launch-nginx-server.sh launch-nginx-server.sh
 COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
 COPY stunnel-conf/etc-stunnel-conf.d-fb.conf /etc/stunnel/conf.d/fb.conf
 COPY stunnel-conf/etc-stunnel-stunnel.conf /etc/stunnel/stunnel.conf
+
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /usr/local/nginx/logs/access.log
+RUN ln -sf /dev/stderr /usr/local/nginx/logs/error.log
+
+RUN cp /nginx-rtmp-module-${RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/
 
 EXPOSE 1935
 EXPOSE 80

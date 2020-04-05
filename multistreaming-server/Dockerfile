@@ -36,6 +36,11 @@ COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
 COPY stunnel-conf/etc-stunnel-conf.d-fb.conf /etc/stunnel/conf.d/fb.conf
 COPY stunnel-conf/etc-stunnel-stunnel.conf /etc/stunnel/stunnel.conf
 
+# forward request and error logs to docker log collector
+RUN ln -sf /dev/stdout /usr/local/nginx/logs/access.log
+RUN ln -sf /dev/stderr /usr/local/nginx/logs/error.log
+
+RUN cp /nginx-rtmp-module-${RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/
 EXPOSE 1935
 EXPOSE 80
 

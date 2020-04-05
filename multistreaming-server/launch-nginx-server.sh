@@ -37,7 +37,7 @@ fi
 if [ $MULTISTREAMING_KEY_MICROSOFTSTREAM ]; then
 	export MICROSOFTSTREAMRTMP=${MULTISTREAMING_KEY_MICROSOFTSTREAM%/live/*}
 	export MICROSOFTSTREAMAPPNAME=live/${MULTISTREAMING_KEY_MICROSOFTSTREAM#*/live/}
-	envsubst \${MICROSOFTSTREAMRTMP},\${MICROSOFTSTREAMAPPNAME} < nginx-conf-microsoftstream.txt >>  /usr/local/nginx/conf/nginx.conf
+	envsubst < nginx-conf-microsoftstream.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_MICROSOFTSTREAM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 

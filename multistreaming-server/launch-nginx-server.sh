@@ -29,10 +29,16 @@ if [ $MULTISTREAMING_KEY_PERISCOPE ]; then
 	sed -e "s/##PUSH_PERISCOPE_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
-
 if [ $MULTISTREAMING_KEY_CUSTOM ]; then
 	envsubst < nginx-conf-custom.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_CUSTOM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
+fi
+
+if [ $MULTISTREAMING_KEY_MICROSOFTSTREAM ]; then
+	export MICROSOFTSTREAMRTMP=${MULTISTREAMING_KEY_MICROSOFTSTREAM%/live/*}
+	export MICROSOFTSTREAMAPPNAME=live/${MULTISTREAMING_KEY_MICROSOFTSTREAM#*/live/}
+	envsubst \${MICROSOFTSTREAMRTMP},\${MICROSOFTSTREAMAPPNAME} < nginx-conf-microsoftstream.txt >>  /usr/local/nginx/conf/nginx.conf
+	sed -e "s/##PUSH_MICROSOFTSTREAM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
 envsubst < nginx-conf-suffix.txt >>  /usr/local/nginx/conf/nginx.conf

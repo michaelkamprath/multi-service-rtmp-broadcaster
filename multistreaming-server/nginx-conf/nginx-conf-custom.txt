@@ -8,5 +8,5 @@
 			deny publish all;
 
 			# Push URL with the Custom stream Ingest URL
-			push ${MULTISTREAMING_KEY_CUSTOM} app=live/b5e049ed706244bf95b7dd8bcc471580;
+			push ${MULTISTREAMING_KEY_CUSTOM};
 		}

@@ -11,6 +11,12 @@ if [ $MULTISTREAMING_KEY_FACEBOOK ]; then
 	/usr/bin/stunnel &
 fi
 
+if [ $MULTISTREAMING_KEY_INSTAGRAM ]; then
+	envsubst < nginx-conf-instagram.txt >>  /usr/local/nginx/conf/nginx.conf
+	sed -e "s/##PUSH_INSTAGRAM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
+	/usr/bin/stunnel &
+fi
+
 if [ $MULTISTREAMING_KEY_TWITCH ]; then
 	envsubst < nginx-conf-twitch.txt >>  /usr/local/nginx/conf/nginx.conf
 	sed -e "s/##PUSH_TWITCH_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf

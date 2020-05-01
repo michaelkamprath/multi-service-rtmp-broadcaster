@@ -2,8 +2,8 @@ FROM alpine:3
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
 ARG NGINX_VERSION=1.17.9
-ARG RTMP_REPO=defanator
-ARG RTMP_MODULE_VERSION=fix-build-with-gcc8
+ARG RTMP_REPO=uizaio
+ARG RTMP_MODULE_VERSION=1.4.0.4
 
 RUN set -x \
  && addgroup -S stunnel \
@@ -18,9 +18,10 @@ RUN set -x \
  && wget -O nginx-rtmp-module-${RTMP_MODULE_VERSION}.tar.gz https://github.com/${RTMP_REPO}/nginx-rtmp-module/archive/${RTMP_MODULE_VERSION}.tar.gz \
  && tar -zxvf nginx-rtmp-module-${RTMP_MODULE_VERSION}.tar.gz \
  && cd nginx-${NGINX_VERSION} \
+ && export CFLAGS=-Wno-error \
  && ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-${RTMP_MODULE_VERSION} \
  && make \
- && make install\
+ && make install \
  && apk del build-deps \
  && mkdir -p /var/www/html/recordings \
  && mkdir -p /var/run/stunnel/ \

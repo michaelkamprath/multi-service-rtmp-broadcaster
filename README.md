@@ -27,7 +27,7 @@ docker run -it -p 80:80 -p 1935:1935 \
   multistreaming-server:latest
 ```
 
-Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` Docker image.
+Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` [Docker image](https://hub.docker.com/repository/docker/kamprath/multistreaming-server).
 
 Note that several environment variables are set when running the Docker image:
 

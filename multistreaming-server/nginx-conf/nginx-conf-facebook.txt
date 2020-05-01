@@ -11,3 +11,19 @@
 			# push to a secure stream.
 			push rtmp://127.0.0.1:19350/rtmp/${MULTISTREAMING_KEY_FACEBOOK};
 		}
+
+		# Transcode Facebook Stream Application
+		application facebook_transcode {
+			live on;
+			record off;
+
+			# Only allow localhost to publish
+			allow publish 127.0.0.1;
+			deny publish all;
+
+			# Facebook only accepts a 1280x720 stream. Transcode to that dimension.
+			exec ffmpeg -re -i rtmp://localhost:1935/${DOLLAR}app/${DOLLAR}name
+				-c:v libx264 -s 1280x720 -b:v 4500k -bufsize 12M -r 30 -x264opts "keyint=60:min-keyint=60:no-scenecut:nal-hrd=cbr"
+				-c:a copy
+				-f flv rtmp://localhost:1935/facebook/${DOLLAR}name;
+		}

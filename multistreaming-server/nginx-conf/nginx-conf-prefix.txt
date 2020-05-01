@@ -143,6 +143,7 @@ rtmp {
 			# Define the applications to which the stream will be pushed, comment them out to disable the ones not needed:
 ##PUSH_TWITCH_MARKER##   push rtmp://localhost/twitch;
 ##PUSH_FACEBOOK_MARKER##   push rtmp://localhost/facebook;
+##PUSH_FACEBOOK_TRANSCODE_MARKER##   push rtmp://localhost/facebook_transcode;
 ##PUSH_INSTAGRAM_MARKER##   push rtmp://localhost/instagram;
 ##PUSH_YOUTUBE_MARKER##   push rtmp://localhost/youtube;
 ##PUSH_CUSTOM_MARKER##   push rtmp://localhost/custom;

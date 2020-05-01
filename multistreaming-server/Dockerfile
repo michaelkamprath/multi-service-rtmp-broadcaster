@@ -1,4 +1,4 @@
-FROM alpine:3
+FROM jrottenberg/ffmpeg:4.2-alpine
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
 ARG NGINX_VERSION=1.17.9
@@ -11,7 +11,7 @@ RUN set -x \
  && echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
  && apk update \
  && apk add --no-cache --update stunnel ca-certificates \
- && apk add --no-cache pcre openssl ffmpeg stunnel gettext \
+ && apk add --no-cache pcre openssl stunnel gettext \
  && apk add --no-cache --virtual build-deps build-base pcre-dev openssl-dev zlib zlib-dev wget make \
  && wget -O nginx-${NGINX_VERSION}.tar.gz http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
  && tar -zxvf nginx-${NGINX_VERSION}.tar.gz \
@@ -46,5 +46,8 @@ EXPOSE 1935
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
+
+# Remove the entry point from jrottenberg/ffmpeg
+ENTRYPOINT []
 
 CMD ["/bin/sh", "/launch-nginx-server.sh"]

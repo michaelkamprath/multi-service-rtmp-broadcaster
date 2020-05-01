@@ -21,7 +21,7 @@ RUN set -x \
  && export CFLAGS=-Wno-error \
  && ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-${RTMP_MODULE_VERSION} \
  && make \
- && make install\
+ && make install \
  && apk del build-deps \
  && mkdir -p /var/www/html/recordings \
  && mkdir -p /var/run/stunnel/ \

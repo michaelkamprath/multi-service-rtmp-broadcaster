@@ -1,9 +1,9 @@
 # Multi-Service RTMP Broadcaster
 
-The goal of this project is to create a Docker-deployed service that will allow you to easily broadcast a livestream to multiple services (YouTube, Twitch, Facebook, etc) at the same time. This stream rebroadcaster is designed to be used by a single source / user.
+The goal of this project is to create a Docker-deployed service that will allow you to easily broadcast a live stream to multiple services (YouTube, Twitch, Facebook, etc) at the same time. This stream rebroadcaster is designed to be used by a single source / user.
 
 ## Usage
-The instructions here assume you are running on linux. With some modification of the commands, you can make this Docker build work on Windows and Mac OS too.
+The instructions here assume you are running on Linux. With some modification of the commands, you can make this Docker build work on Windows and Mac OS too.
 
 The first step is to build the docker file. After you clone this repository, `cd` into and and issue:
 
@@ -34,16 +34,17 @@ Note that several environment variables are set when running the Docker image:
 * `MULTISTREAMING_PASSWORD` _(REQUIRED)_ - This is a password you define and will be used by your steaming software. This is a marginally secure way to prevent other people from pushing to your stream.
 * `MULTISTREAMING_KEY_TWITCH` _(OPTIONAL)_ - Your Twitch stream key. Only define if you want to rebroadcast your stream to Twitch.
 * `MULTISTREAMING_KEY_FACEBOOK` _(OPTIONAL)_ - Your Facebook stream key. Only define if you want to rebroadcast your stream to Facebook.
+* `FACEBOOK_TRANSCODE` _(OPTIONAL)_ - Define and set to 1 if you want to transcode the stream sent to Facebook to it's recommended maximum of 1280x720 @ 4500 Kbps. Not required to stream to Facebook, but if you are streaming above the recommended maximum, Facebook will complain.
 * `MULTISTREAMING_KEY_INSTAGRAM` _(OPTIONAL)_ - Your Instagram stream key. You will need to use https://yellowduck.tv/ to retrieve your stream key for Instagram. Only define if you want to rebroadcast your stream to Instagram.
 * `MULTISTREAMING_KEY_YOUTUBE` _(OPTIONAL)_ - Your YouTube stream key. Only define if you want to rebroadcast your stream to YouTube.
 * `MULTISTREAMING_KEY_MICROSOFTSTREAM` _(OPTIONAL)_ - Your Microsoft Stream Ingest URL. Only define if you want to rebroadcast your stream to Microsoft Stream.
-* `MULTISTREAMING_KEY_CUSTOM` _(OPTIONAL)_ - Your full RTMP url, including rtmp://, to any live stream service. Only define if you want to rebroadcast your stream to a custom service.
+* `MULTISTREAMING_KEY_CUSTOM` _(OPTIONAL)_ - Your full RTMP URL, including rtmp://, to any live stream service. Only define if you want to rebroadcast your stream to a custom service.
 * `MULTISTREAMING_KEY_PERISCOPE` _(OPTIONAL)_ - Your Periscope stream key. Only define if you want to rebroadcast your stream to Periscope.
 * `PERISCOPE_REGION_ID` _(OPTIONAL)_ - The two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
 
-You could start this docker with no stream keys defined, but that wouldn't do anything interesting then.
+You could start this docker with no stream keys defined, but that wouldn't do anything interesting then. Note that if your configuration requires transcoding (Facebook or Periscope), then you might get poor bit rates if your CPU isn't up to the job. It is recommended that your modern CPU has at least 4 cores for each transcoding task you enable.
 
-Once the Docker image is running, set up your stream software with the following paramters:
+Once the Docker image is running, set up your stream software with the following parameters:
 
 * **Server** : `rtmp://__docker_host_IP_address__/live` - Replace `__docker_host_IP_address__` with the IP address of your host that is running this Docker container.
 * **Stream Key** : `__made_up_stream_name__?pwd=__made_up_password__` - Here `__made_up_stream_name__` is any arbitrary stream name, and `__made_up_password__` is the same password defined for `MULTISTREAMING_PASSWORD` above.

@@ -16,14 +16,7 @@ Once built, start the serve on the same host as where your streaming source (e.g
 ```
 docker run -it -p 80:80 -p 1935:1935 \
   --env MULTISTREAMING_PASSWORD=__made_up_password__ \
-  --env "MULTISTREAMING_KEY_TWITCH=__your_twitch_stream_key__" \
-  --env "MULTISTREAMING_KEY_FACEBOOK=__your_facebook_stream_key__" \
-  --env "MULTISTREAMING_KEY_INSTAGRAM=__your_instagram_stream_key_from_yellow_duck__" \
-  --env "MULTISTREAMING_KEY_YOUTUBE=__your_youtube_stream_key__" \  
-  --env "MULTISTREAMING_KEY_MICROSOFTSTREAM=__your_microsoft_stream_ingest_url__" \
-  --env "MULTISTREAMING_KEY_CUSTOM=__your_full_rtmp_url__" \
-  --env "MULTISTREAMING_KEY_PERISCOPE=__your_periscope_stream_key__" \
-  --env "PERISCOPE_REGION_ID=__periscope_2-letter_region_code__" \
+  -v /path/to/my-rtmp-config.json:/rtmp-configuation.json
   multistreaming-server:latest
 ```
 
@@ -32,17 +25,8 @@ Alternatively, you could use the DockerHub build of this image by pulling and us
 Note that several environment variables are set when running the Docker image:
 
 * `MULTISTREAMING_PASSWORD` _(REQUIRED)_ - This is a password you define and will be used by your steaming software. This is a marginally secure way to prevent other people from pushing to your stream.
-* `MULTISTREAMING_KEY_TWITCH` _(OPTIONAL)_ - Your Twitch stream key. Only define if you want to rebroadcast your stream to Twitch.
-* `MULTISTREAMING_KEY_FACEBOOK` _(OPTIONAL)_ - Your Facebook stream key. Only define if you want to rebroadcast your stream to Facebook.
-* `FACEBOOK_TRANSCODE` _(OPTIONAL)_ - Define and set to 1 if you want to transcode the stream sent to Facebook to it's recommended maximum of 1280x720 @ 4500 Kbps. Not required to stream to Facebook, but if you are streaming above the recommended maximum, Facebook will complain.
-* `MULTISTREAMING_KEY_INSTAGRAM` _(OPTIONAL)_ - Your Instagram stream key. You will need to use https://yellowduck.tv/ to retrieve your stream key for Instagram. Only define if you want to rebroadcast your stream to Instagram.
-* `MULTISTREAMING_KEY_YOUTUBE` _(OPTIONAL)_ - Your YouTube stream key. Only define if you want to rebroadcast your stream to YouTube.
-* `MULTISTREAMING_KEY_MICROSOFTSTREAM` _(OPTIONAL)_ - Your Microsoft Stream Ingest URL. Only define if you want to rebroadcast your stream to Microsoft Stream.
-* `MULTISTREAMING_KEY_CUSTOM` _(OPTIONAL)_ - Your full RTMP URL, including rtmp://, to any live stream service. Only define if you want to rebroadcast your stream to a custom service.
-* `MULTISTREAMING_KEY_PERISCOPE` _(OPTIONAL)_ - Your Periscope stream key. Only define if you want to rebroadcast your stream to Periscope.
-* `PERISCOPE_REGION_ID` _(OPTIONAL)_ - The two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
 
-You could start this docker with no stream keys defined, but that wouldn't do anything interesting then. Note that if your configuration requires transcoding (Facebook or Periscope), then you might get poor bit rates if your CPU isn't up to the job. It is recommended that your modern CPU has at least 4 cores for each transcoding task you enable.
+You must create and JSON file with the RTMP rebroadcasting configuration ... _TBC_
 
 Once the Docker image is running, set up your stream software with the following parameters:
 

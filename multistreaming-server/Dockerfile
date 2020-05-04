@@ -1,7 +1,7 @@
 FROM jrottenberg/ffmpeg:4.2-alpine
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
-ARG NGINX_VERSION=1.17.9
+ARG NGINX_VERSION=1.18.0
 ARG RTMP_REPO=uizaio
 ARG RTMP_MODULE_VERSION=1.4.0.4
 
@@ -11,7 +11,7 @@ RUN set -x \
  && echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
  && apk update \
  && apk add --no-cache --update stunnel ca-certificates \
- && apk add --no-cache pcre openssl stunnel gettext \
+ && apk add --no-cache pcre openssl stunnel gettext python3 \
  && apk add --no-cache --virtual build-deps build-base pcre-dev openssl-dev zlib zlib-dev wget make \
  && wget -O nginx-${NGINX_VERSION}.tar.gz http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
  && tar -zxvf nginx-${NGINX_VERSION}.tar.gz \
@@ -29,8 +29,10 @@ RUN set -x \
  && chown stunnel:stunnel /var/run/stunnel/
 
 COPY index.html /usr/local/nginx/html/
-COPY nginx-conf/nginx-conf-*.txt /
+COPY nginx-conf/nginx.conf /base-nginx.conf
 COPY launch-nginx-server.sh launch-nginx-server.sh
+COPY rtmp-conf-generator.py rtmp-conf-generator.py
+
 COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
 COPY stunnel-conf/etc-stunnel-conf.d-fb.conf /etc/stunnel/conf.d/fb.conf
 COPY stunnel-conf/etc-stunnel-conf.d-ig.conf /etc/stunnel/conf.d/ig.conf

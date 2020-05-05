@@ -163,10 +163,11 @@ if len(sys.argv) != 2:
 with open(sys.argv[1], 'r') as f:
     config=json.load(f)
 
-rtmp_conf=RTMP_CONF_BLOCK.replace('%%ENDPOINT_NAME%%', config['endpoint'], 1)
+endpoint_name = config['endpoint'] if 'endpoint' in config else 'live'
+rtmp_conf=RTMP_CONF_BLOCK.replace('%%ENDPOINT_NAME%%', endpoint_name, 1)
 
 for block_config in config['rebroacastList']:
     rtmp_conf=addRTMPPushConfiguration(
-        rtmp_conf, block_config, config['endpoint'])
+        rtmp_conf, block_config, endpoint_name)
 
 print(rtmp_conf)

@@ -32,6 +32,7 @@ You must also create and JSON file with the RTMP rebroadcasting configuration yo
 * `rebroacastList`- _Required_ Contains a list of JSON objects that each configure a distinct RTMP destination that the stream pushed to the ingest endpoint will be rebroadcasted to. At least one destination should be configured. There is no specific limit on the number of destinations except for the hardware limitations of your host. Each destination is configured with the following JSON elements:
   * `name` - _Required_ A distinct label for this destination. Can be any alphanumeric string with no white space. Must be distinct from all the other destination names in this list.
   * `platform` - _Required_ The platform that this specific rebroadcast stream should be pushed to. The default RTMP destinations will be used for each platform. Supported platforms values are: `youtube`, `facebook`, `twitch`, `instagram`, `periscope`, and `custom`. Note that specifying `custom` will cause the `streamKey` element to be ignored if present and instead use the `customRTMPURL`
+  * `regionCode` - If `periscope` is specified as the platform for this destination, this is the two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
   * `streamKey` - This is the stream key that identifies the unique stream on the specified platform. This value is provided by the platform. This element must be provided for all `platform` types except for `custom`
   * `customRTMPURL` - If `custom` is specified in the `platform`, the URL specified in this element is used as-is for the destination URL.
   * `transcode` - If present, the stream will be trancoded before rebroadcasting it to this list item's destination. Note that when using this transcoding, the stream will be trancoded to 30 FPS and CBR bit rate. The value is a JSON object that contains the following configuration elements:
@@ -72,6 +73,7 @@ Here is an example of the JSON configuraiton file:
     {
       "name": "periscope",
       "platform": "periscope",
+      "regionCode": "ca",
       "streamKey": "jkl012",
       "transcode": {
         "pixels": "1280x720",

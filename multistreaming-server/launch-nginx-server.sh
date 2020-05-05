@@ -51,6 +51,11 @@ if [ $MULTISTREAMING_KEY_MICROSOFTSTREAM ]; then
 	sed -e "s/##PUSH_MICROSOFTSTREAM_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
 fi
 
+if [ $MULTISTREAMING_ICECAST ]; then
+	envsubst < nginx-conf-icecast.txt >>  /usr/local/nginx/conf/nginx.conf
+	sed -e "s/##PUSH_ICECAST_MARKER##//g" -i /usr/local/nginx/conf/nginx.conf
+fi
+
 envsubst < nginx-conf-suffix.txt >>  /usr/local/nginx/conf/nginx.conf
 
 # finally, launch nginx

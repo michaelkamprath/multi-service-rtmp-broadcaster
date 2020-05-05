@@ -24,6 +24,7 @@ docker run -it -p 80:80 -p 1935:1935 \
   --env "MULTISTREAMING_KEY_CUSTOM=__your_full_rtmp_url__" \
   --env "MULTISTREAMING_KEY_PERISCOPE=__your_periscope_stream_key__" \
   --env "PERISCOPE_REGION_ID=__periscope_2-letter_region_code__" \
+  --env "MULTISTREAMING_ICECAST=__your_icecast_url__" \
   multistreaming-server:latest
 ```
 
@@ -41,6 +42,7 @@ Note that several environment variables are set when running the Docker image:
 * `MULTISTREAMING_KEY_CUSTOM` _(OPTIONAL)_ - Your full RTMP URL, including rtmp://, to any live stream service. Only define if you want to rebroadcast your stream to a custom service.
 * `MULTISTREAMING_KEY_PERISCOPE` _(OPTIONAL)_ - Your Periscope stream key. Only define if you want to rebroadcast your stream to Periscope.
 * `PERISCOPE_REGION_ID` _(OPTIONAL)_ - The two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
+* `MULTISTREAMING_ICECAST` _(OPTIONAL)_ - Your full Icecast URL, including icecast://, username, password and mount point. For example: icecast://source:password@icecast-hostname:8000/stream
 
 You could start this docker with no stream keys defined, but that wouldn't do anything interesting then. Note that if your configuration requires transcoding (Facebook or Periscope), then you might get poor bit rates if your CPU isn't up to the job. It is recommended that your modern CPU has at least 4 cores for each transcoding task you enable.
 

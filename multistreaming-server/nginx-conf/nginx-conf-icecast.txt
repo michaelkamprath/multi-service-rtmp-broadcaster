@@ -7,5 +7,5 @@
 			allow publish 127.0.0.1;
 			deny publish all;
 
-			exec ffmpeg -re -i rtmp://localhost:1935/${DOLLAR}app/${DOLLAR}name	-c:a libmp3lame -b:a 192k -content_type 'audio/mpeg' -vn -f mp3 ${MULTISTREAMING_ICECAST};
+			exec ffmpeg -re -vn -i rtmp://localhost:1935/${DOLLAR}app/${DOLLAR}name -c:a copy -content_type audio/aac -f adts ${MULTISTREAMING_ICECAST};
 		}

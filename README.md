@@ -20,7 +20,7 @@ docker run -it -p 80:80 -p 1935:1935 \
   multistreaming-server:latest
 ```
 
-Note that that if this is a host than where you built the docker image, you will need to push the docker image to that host (or build it there). Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` [Docker image](https://hub.docker.com/repository/docker/kamprath/multistreaming-server).
+If this is a host than where you built the docker image, you will need to push the docker image to that host (or build it there). Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` [Docker image](https://hub.docker.com/repository/docker/kamprath/multistreaming-server). Also, if you plan on doing any transcoding when rebroadcasting a stream, you need to ensure that your docker host's CPU is sufficient for the job. It is recommend that the host CPU has at least four cores for each distinct transcoding the multi-streaming server will do. If the host CPU is not sufficient, bit rates on the transcoded streams will suffer.
 
 Note that an environment variable is set when running the Docker image:
 

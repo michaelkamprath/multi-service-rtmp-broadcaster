@@ -10,6 +10,9 @@ All notable changes to this project will be documented in this file.
 * Cleanly enables rebroadcasting to multiple stream keys on the same platform.
 * Migrated
 
+### Added
+* Created a deployment script for the Linode cloud hosting service.
+
 ### Fixed
 * Corrected how transcoding is implemented: larger buffer, better audio
 

@@ -26,7 +26,7 @@ Note that an environment variable is set when running the Docker image:
 
 * `MULTISTREAMING_PASSWORD` _(REQUIRED)_ - This is a password you define and will be used by your steaming software. This is a marginally secure way to prevent other people from pushing to your stream.
 
-You must also create and JSON file with the RTMP rebroadcasting configuration you desire. This file should get mapped from your local file system to the `/rtmp-configuation.json` file path with in the Docker container. The JSON file has the following elements:
+You must also create and JSON file with the RTMP rebroadcasting configuration you desire. This file should get mapped from your local file system to the `/rtmp-configuation.json` file path within the Docker container. The JSON file has the following elements:
 
 * `endpoint`- This is the name of the RTMP ingest endpoint that the source stream will be pushed to. Defaults to `live` if not specified.
 * `rebroacastList`- _Required_ Contains a list of JSON objects that each configure a distinct RTMP destination that the stream pushed to the ingest endpoint will be rebroadcasted to. At least one destination should be configured. There is no specific limit on the number of destinations except for the hardware limitations of your host. Each destination is configured with the following JSON elements:
@@ -105,7 +105,7 @@ Goals for future improvements to this project include:
 
 * Adding more streaming services
 * Creating a useful status web page
-* Create a control panel web page where you'd set stream keys rather than through environment variables
+* Create a control panel web page where you'd set stream keys rather than through a JSON file
 
 ## Acknowledgements
 

@@ -11,7 +11,7 @@ The first step is to build the docker file. After you clone this repository, `cd
 docker build -t multistreaming-server ./multistreaming-server/
 ```
 
-Once built, start the serve on the same host as where your streaming source (e.g., OBS) is running with:
+Once built, start the docker image on a host that has sufficient bandwidth to handle all the rebroadcasting you will do:
 
 ```
 docker run -it -p 80:80 -p 1935:1935 \
@@ -20,7 +20,7 @@ docker run -it -p 80:80 -p 1935:1935 \
   multistreaming-server:latest
 ```
 
-Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` [Docker image](https://hub.docker.com/repository/docker/kamprath/multistreaming-server).
+Note that that if this is a host than where you built the docker image, you will need to push the docker image to that host (or build it there). Alternatively, you could use the DockerHub build of this image by pulling and using the `kamprath/multistreaming-server:latest` [Docker image](https://hub.docker.com/repository/docker/kamprath/multistreaming-server).
 
 Note that an environment variable is set when running the Docker image:
 
@@ -86,13 +86,13 @@ Here is an example of the JSON configuraiton file:
   ]
 }
 ```
-Note that as long as their `name` elements are different, you can have more than one destination pushing to the same `platform`, though it would be optimal if each destination also had distinct `streamKey` values.
+Note that as long as the `name` elements are different, you can have more than one destination pushing to the same `platform` each with different `streamKey` values.
 
 If you would like to capture a recording of the stream sent to the ingest endpoint, bind a local directory on your host to the `/var/www/html/recordings/` file path within the Docker image when launching the Docker container.
 
 Once the Docker image is running, set up your stream software with the following parameters:
 
-* **Server** : `rtmp://__docker_host_IP_address__/__endpoint_name__` - Replace `__docker_host_IP_address__` with the IP address of your host that is running this Docker container. Also replace `__endpoint_name__` with the value used for the `endpoint` element in your JSON confirguration file.
+* **Server** : `rtmp://__docker_host_IP_address__/__endpoint_name__` - Replace `__docker_host_IP_address__` with the IP address of your host that is running this Docker container. Also replace `__endpoint_name__` with the value used for the `endpoint` element in your JSON configuration file.
 * **Stream Key** : `__made_up_stream_name__?pwd=__made_up_password__` - Here `__made_up_stream_name__` is any arbitrary stream name, and `__made_up_password__` is the same password defined for `MULTISTREAMING_PASSWORD` above.
 
 In OBS, you would set the above parameters for a "Custom..." Service in the Stream settings.

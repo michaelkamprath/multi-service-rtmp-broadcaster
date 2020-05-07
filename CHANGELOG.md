@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Changed
+* Improved error handling in the RTMP configuration generation script.
 
 ## [0.3.0]
 ### Changed

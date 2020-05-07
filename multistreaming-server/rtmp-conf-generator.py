@@ -75,7 +75,10 @@ PUSH_URL_PERISCOPE = "rtmp://%%REGION_CODE%%.pscp.tv:80/x/%%STREAM_KEY%%"
 #
 
 def generatePlatormPushURL(block_config):
-	push_url = 'push-real-good'
+	if 'platform' not in block_config:
+		print("ERROR - Application block is missing platform element.", file=sys.stderr)
+		exit(1)
+	push_url = 'push-it-real-good'
 	if block_config['platform'] == 'youtube':
 		push_url = PUSH_URL_YOUTUBE.replace('%%STREAM_KEY%%', block_config['streamKey'])
 	elif block_config['platform'] == 'facebook':
@@ -101,73 +104,83 @@ def generatePlatormPushURL(block_config):
 
 
 def createRTMPApplicationBlocks(block_name, block_config):
-    app_block = ''
-    primary_block_name = block_name
-    if 'transcode' in block_config:
-        primary_block_name += '_transcoded'
-        tc_conf = block_config['transcode']
-        pixel_size = tc_conf['pixels'] if 'pixels' in tc_conf else '1280x720'
-        video_bit_rate = tc_conf['videoBitRate'] if 'videoBitRate' in tc_conf else '4500k'
-        key_frames = 30 * \
-            tc_conf['videoKeyFrameSecs'] if 'videoKeyFrameSecs' in tc_conf else 60
-        if ('audioBitRate' in tc_conf) or ('audioSampleRate' in tc_conf):
-        	audio_bit_rate = tc_conf['audioBitRate'] if 'audioBitRate' in tc_conf else '160k'
-        	audio_sample_rate = str(tc_conf['audioSampleRate']) if 'audioSampleRate' in tc_conf else '48000'
-        	audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM.replace(
+	app_block = ''
+	primary_block_name = block_name
+	if 'transcode' in block_config:
+		primary_block_name += '_transcoded'
+		tc_conf = block_config['transcode']
+		pixel_size = tc_conf['pixels'] if 'pixels' in tc_conf else '1280x720'
+		video_bit_rate = tc_conf['videoBitRate'] if 'videoBitRate' in tc_conf else '4500k'
+		key_frames = 30 * \
+		    tc_conf['videoKeyFrameSecs'] if 'videoKeyFrameSecs' in tc_conf else 60
+		if ('audioBitRate' in tc_conf) or ('audioSampleRate' in tc_conf):
+			audio_bit_rate = tc_conf['audioBitRate'] if 'audioBitRate' in tc_conf else '160k'
+			audio_sample_rate = str(tc_conf['audioSampleRate']) if 'audioSampleRate' in tc_conf else '48000'
+			audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM.replace(
 					'%%AUDIO_BIT_RATE%%', audio_bit_rate
 				).replace(
 					'%%AUDIO_SAMPLE_RATE%%', audio_sample_rate
 				)
-        else:
-        	audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_COPY
-        app_block += RTMP_TRANSCODE_BLOCK.replace(
-                '%%BLOCK_NAME%%', block_name
-            ).replace(
-                '%%DEST_BLOCK_NAME%%', primary_block_name
-            ).replace(
-                '%%PIXEL_SIZE%%', pixel_size
-            ).replace(
-                '%%VIDEO_BIT_RATE%%', video_bit_rate
-            ).replace(
-                '%%KFS%%', str(key_frames)
-            ).replace(
+		else:
+			audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_COPY
+			app_block += RTMP_TRANSCODE_BLOCK.replace(
+				'%%BLOCK_NAME%%', block_name
+			).replace(
+				'%%DEST_BLOCK_NAME%%', primary_block_name
+			).replace(
+				'%%PIXEL_SIZE%%', pixel_size
+			).replace(
+				'%%VIDEO_BIT_RATE%%', video_bit_rate
+			).replace(
+				'%%KFS%%', str(key_frames)
+			).replace(
 				'%%AUDIO_OPTS%%', audio_opts
 			)
-    app_block += RTMP_PUSH_BLOCK.replace(
-            '%%BLOCK_NAME%%', primary_block_name
-        ).replace(
+	app_block += RTMP_PUSH_BLOCK.replace(
+			'%%BLOCK_NAME%%', primary_block_name
+		).replace(
 			'%%PUSH_URL%%', generatePlatormPushURL(block_config)
 		)
-    return app_block
+	return app_block
 
 
 def addRTMPPushConfiguration(orig_rtmp_conf, block_config, endpoint_name):
-    block_name=endpoint_name + '-' + block_config['name']
-    push_pos=orig_rtmp_conf.index('			# RTMP_PUSH_DIRECTIVE_MARKER')
-    rtmp_conf=orig_rtmp_conf[:push_pos] \
-                    + '			push rtmp://localhost/' \
-                    + block_name \
-                    + ';\n' \
-                    + orig_rtmp_conf[push_pos:]
-    block_pos=rtmp_conf.index('		# RTMP_PUSH_BLOCK_MARKER')
-    rtmp_conf=rtmp_conf[:block_pos] \
-                    + createRTMPApplicationBlocks(block_name, block_config) \
-                    + rtmp_conf[block_pos:]
-    return rtmp_conf
+	if 'name' not in block_config:
+		print("ERROR - Application block is missing name element.", file=sys.stderr)
+		exit(1)
+	block_name=endpoint_name + '-' + block_config['name']
+	push_pos=orig_rtmp_conf.index('			# RTMP_PUSH_DIRECTIVE_MARKER')
+	rtmp_conf=orig_rtmp_conf[:push_pos] \
+			+ '			push rtmp://localhost/' \
+			+ block_name \
+			+ ';\n' \
+			+ orig_rtmp_conf[push_pos:]
+	block_pos=rtmp_conf.index('		# RTMP_PUSH_BLOCK_MARKER')
+	rtmp_conf=rtmp_conf[:block_pos] \
+			+ createRTMPApplicationBlocks(block_name, block_config) \
+			+ rtmp_conf[block_pos:]
+	return rtmp_conf
 
 
 if len(sys.argv) != 2:
-    print("Must pass a single argument of the JSON configuraiton file path.")
-    sys.exit(2)
+    print("Must pass a single argument of the JSON configuraiton file path.", file=sys.stderr)
+    sys.exit(1)
 
-with open(sys.argv[1], 'r') as f:
-    config=json.load(f)
+try:
+	with open(sys.argv[1], 'r') as f:
+		config=json.load(f)
+except json.decoder.JSONDecodeError as err:
+	print('ERROR decoding JSON config file "{0}": {1}'.format(sys.argv[1], err), file=sys.stderr)
+	exit(1)
+except:
+	print('ERROR loading JSON config file "{0}"'.format(sys.argv[1]), file=sys.stderr)
+	exit(1)
 
 endpoint_name = config['endpoint'] if 'endpoint' in config else 'live'
 rtmp_conf=RTMP_CONF_BLOCK.replace('%%ENDPOINT_NAME%%', endpoint_name, 1)
 
 for block_config in config['rebroacastList']:
-    rtmp_conf=addRTMPPushConfiguration(
-        rtmp_conf, block_config, endpoint_name)
+	rtmp_conf=addRTMPPushConfiguration(
+		rtmp_conf, block_config, endpoint_name)
 
 print(rtmp_conf)

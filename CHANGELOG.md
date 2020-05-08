@@ -5,6 +5,9 @@ All notable changes to this project will be documented in this file.
 ### Changed
 * Improved error handling in the RTMP configuration generation script.
 
+### Fixed
+* Correct bug in RTMP configuration generation when the audio bit rate is set.
+
 ## [0.3.0]
 ### Changed
 * **This is a major change that breaks any deployment based on prior version.**

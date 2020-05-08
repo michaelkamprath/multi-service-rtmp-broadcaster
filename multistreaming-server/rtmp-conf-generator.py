@@ -123,19 +123,19 @@ def createRTMPApplicationBlocks(block_name, block_config):
 				)
 		else:
 			audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_COPY
-			app_block += RTMP_TRANSCODE_BLOCK.replace(
-				'%%BLOCK_NAME%%', block_name
-			).replace(
-				'%%DEST_BLOCK_NAME%%', primary_block_name
-			).replace(
-				'%%PIXEL_SIZE%%', pixel_size
-			).replace(
-				'%%VIDEO_BIT_RATE%%', video_bit_rate
-			).replace(
-				'%%KFS%%', str(key_frames)
-			).replace(
-				'%%AUDIO_OPTS%%', audio_opts
-			)
+		app_block += RTMP_TRANSCODE_BLOCK.replace(
+			'%%BLOCK_NAME%%', block_name
+		).replace(
+			'%%DEST_BLOCK_NAME%%', primary_block_name
+		).replace(
+			'%%PIXEL_SIZE%%', pixel_size
+		).replace(
+			'%%VIDEO_BIT_RATE%%', video_bit_rate
+		).replace(
+			'%%KFS%%', str(key_frames)
+		).replace(
+			'%%AUDIO_OPTS%%', audio_opts
+		)
 	app_block += RTMP_PUSH_BLOCK.replace(
 			'%%BLOCK_NAME%%', primary_block_name
 		).replace(

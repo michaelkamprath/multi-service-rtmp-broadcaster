@@ -109,7 +109,7 @@ def generatePlatormPushURL(block_config):
 				'%%APP_NAME%%', ms_app_name
 			)
 	else:
-		print("ERROR - an unsupported platform type was provided in destination configation", file=sys.stderr)
+		print("ERROR - an unsupported platform type was provided in destination configuration", file=sys.stderr)
 		exit(1)
 
 	return push_url

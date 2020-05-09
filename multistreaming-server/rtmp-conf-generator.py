@@ -76,6 +76,7 @@ PUSH_URL_MICROSOFT_STREAM = "%%RTMP_URL%% app=live/%%APP_NAME%%"
 #
 
 def generatePlatormPushURL(block_config):
+<<<<<<< HEAD
     if 'platform' not in block_config:
         print("ERROR - Application block is missing platform element.", file=sys.stderr)
         exit(1)
@@ -112,6 +113,45 @@ def generatePlatormPushURL(block_config):
         print("ERROR - an unsupported platform type was provided in destination configation", file=sys.stderr)
         exit(1)
     return push_url
+=======
+	if 'platform' not in block_config:
+		print("ERROR - Application block is missing platform element.", file=sys.stderr)
+		exit(1)
+	push_url = 'push-it-real-good'
+	if block_config['platform'] == 'youtube':
+		push_url = PUSH_URL_YOUTUBE.replace('%%STREAM_KEY%%', block_config['streamKey'])
+	elif block_config['platform'] == 'facebook':
+		# must push through stunnel. Push through Facebook stunnel port.
+		push_url = PUSH_URL_FACEBOOK.replace('%%STREAM_KEY%%', block_config['streamKey'])
+	elif block_config['platform'] == 'twitch':
+		push_url = PUSH_URL_TWITCH.replace('%%STREAM_KEY%%', block_config['streamKey'])
+	elif block_config['platform'] == 'instagram':
+		# must push through stunnel. Push through Instagram stunnel port.
+		push_url = PUSH_URL_INSTAGRAM.replace('%%STREAM_KEY%%', block_config['streamKey'])
+	elif block_config['platform'] == 'periscope':
+		region_code = block_config['regionCode'] if 'regionCode' in block_config else 'ca'
+		push_url = PUSH_URL_PERISCOPE.replace(
+				'%%STREAM_KEY%%', block_config['streamKey']
+			).replace(
+				'%%REGION_CODE%%', region_code
+			)
+	elif block_config['platform'] == 'custom':
+		push_url = block_config['fullRTMPURL']
+	elif block_config['platform'] == 'microsoft-stream':
+		ms_source_url = block_config['fullRTMPURL']
+		ms_rtmp_url = re.search(r'^(.*)/live/', ms_source_url).group(1)
+		ms_app_name = re.search(r'/live/(.*)$', ms_source_url).group(1)
+		push_url = PUSH_URL_MICROSOFT_STREAM.replace(
+				'%%RTMP_URL%%', ms_rtmp_url
+			).replace(
+				'%%APP_NAME%%', ms_app_name
+			)
+	else:
+		print("ERROR - an unsupported platform type was provided in destination configuration", file=sys.stderr)
+		exit(1)
+
+	return push_url
+>>>>>>> bbcb1f9bf46f76a6ed852104d8cb9e93c7756ccc
 
 
 def createRTMPApplicationBlocks(block_name, block_config):

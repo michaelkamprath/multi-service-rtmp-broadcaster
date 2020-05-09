@@ -1,5 +1,6 @@
-import sys
 import json
+import re
+import sys
 
 #
 # Configuration Templates
@@ -69,7 +70,7 @@ PUSH_URL_FACEBOOK = "rtmp://127.0.0.1:19350/rtmp/%%STREAM_KEY%%"
 PUSH_URL_TWITCH = "rtmp://live-cdg.twitch.tv/app/%%STREAM_KEY%%"
 PUSH_URL_INSTAGRAM = "rtmp://127.0.0.1:19351/rtmp/%%STREAM_KEY%%"
 PUSH_URL_PERISCOPE = "rtmp://%%REGION_CODE%%.pscp.tv:80/x/%%STREAM_KEY%%"
-
+PUSH_URL_MICROSOFT_STREAM = "%%RTMP_URL%% app=live/%%APP_NAME%%"
 #
 #
 #
@@ -98,7 +99,18 @@ def generatePlatormPushURL(block_config):
         )
     elif block_config['platform'] == 'custom':
         push_url = block_config['customRTMPURL']
-
+    elif block_config['platform'] == 'microsoft-stream':
+        ms_source_url = block_config['fullRTMPURL']
+        ms_rtmp_url = re.search(r'^(.*)/live/', ms_source_url).group(1)
+        ms_app_name = re.search(r'/live/(.*)$', ms_source_url).group(1)
+        push_url = PUSH_URL_MICROSOFT_STREAM.replace(
+                '%%RTMP_URL%%', ms_rtmp_url
+            ).replace(
+                '%%APP_NAME%%', ms_app_name
+            )
+    else:
+        print("ERROR - an unsupported platform type was provided in destination configation", file=sys.stderr)
+        exit(1)
     return push_url
 
 

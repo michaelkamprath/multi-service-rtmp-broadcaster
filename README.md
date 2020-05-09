@@ -33,7 +33,7 @@ You must also create and JSON file with the RTMP rebroadcasting configuration yo
   * `name` - _Required_ A distinct label for this destination. Can be any alphanumeric string with no white space. Must be distinct from all the other destination names in this list.
   * `platform` - _Required_ The platform that this specific rebroadcast stream should be pushed to. The default RTMP destinations will be used for each platform. Supported platforms values are: `youtube`, `facebook`, `twitch`, `instagram`, `periscope`, `microsoft-stream`, and `custom`. Note that specifying `microsoft-stream` or `custom` will cause the `streamKey` element to be ignored if present and instead use the `fullRTMPURL`
   * `regionCode` - If `periscope` is specified as the platform for this destination, this is the two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
-  * `streamKey` - This is the stream key that identifies the unique stream on the specified platform. This value is provided by the platform. This element must be provided for all `platform` types except for `custom`
+  * `streamKey` - This is the stream key that identifies the unique stream on the specified platform. This value is provided by the platform. This element must be provided for all `platform` types except for `custom` and `microsoft-stream`.
   * `fullRTMPURL` - If `custom` or `microsoft-stream` is specified in the `platform`, the URL specified in this element is used for the forming destination URL. This should include the `rtmp://` prefix. For the `microsoft-stream` platform, this is the full URL provided in their stream set up. This element is ignored for all other platform types.
   * `transcode` - If present, the stream will be trancoded before rebroadcasting it to this list item's destination. Note that when using this transcoding, the stream will be trancoded to 30 FPS and CBR bit rate. The value is a JSON object that contains the following configuration elements:
     * `pixels` - The pixel dimension that the stream should be transcoded to. Formatted like "1920x1080". If not specified, defaults to "1280x720".
@@ -86,9 +86,9 @@ Here is an example of the JSON configuraiton file:
   ]
 }
 ```
-Note that as long as the `name` elements are different, you can have more than one destination pushing to the same `platform` each with different `streamKey` values.
+Note that as long as the `name` elements are different, you can have more than one destination pushing to the same `platform`, each with different `streamKey` values.
 
-If you would like to capture a recording of the stream sent to the ingest endpoint, bind a local directory on your host to the `/var/www/html/recordings/` file path within the Docker image when launching the Docker container.
+If you would like to capture a recording of the stream sent to the ingest endpoint, bind a local directory on your host to the `/var/www/html/recordings/` file path within the Docker image when launching the Docker container. You can also see statistics about the various streams this server is pushing by visiting this web page: `http://__docker_host_IP_address__/stat`.
 
 Once the Docker image is running, set up your stream software with the following parameters:
 
@@ -106,6 +106,8 @@ Goals for future improvements to this project include:
 * Adding more streaming services
 * Creating a useful status web page
 * Create a control panel web page where you'd set stream keys rather than through a JSON file
+
+Pull requests are welcome!
 
 ## Acknowledgements
 

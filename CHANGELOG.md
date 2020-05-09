@@ -8,10 +8,7 @@ All notable changes to this project will be documented in this file.
 ### Fixed
 * Correct bug in RTMP configuration generation when the audio bit rate is set.
 * Reinstated support for Microsoft Stream
-<<<<<<< HEAD
 * Addressed coding style issues with the python script `rtmp-conf-generator.py`
-=======
->>>>>>> bbcb1f9bf46f76a6ed852104d8cb9e93c7756ccc
 
 ## [0.3.0]
 ### Changed

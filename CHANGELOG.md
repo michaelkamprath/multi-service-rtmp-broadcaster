@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Changed
 * Improved error handling in the RTMP configuration generation script.
+* Improved error handling in the Lindode deploy script.
 
 ### Fixed
 * Correct bug in RTMP configuration generation when the audio bit rate is set.

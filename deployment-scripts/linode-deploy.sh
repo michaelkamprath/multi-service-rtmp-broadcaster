@@ -107,8 +107,12 @@ ssh-keyscan -T 240 ${linode_ip_addr} >> ~/.ssh/known_hosts
 
 # copy the passed RTMP server config file to the Server
 echo "Copying '${RTMP_SERVER_CONFIG_FILEPATH}' to path /root/rtmp_server_config.json on Linode ${linode_id}"
-scp "$RTMP_SERVER_CONFIG_FILEPATH" root@"${linode_ip_addr}":/root/rtmp_server_config.json
-
+scp -q "$RTMP_SERVER_CONFIG_FILEPATH" root@"${linode_ip_addr}":/root/rtmp_server_config.json
+if [ $? -ne 0 ]; then
+  echo "ERROR - Unable to copy '${RTMP_SERVER_CONFIG_FILEPATH}' to linode ${linode_id}. Please terminate the Linode with this command:"
+  echo "    linode-cli linodes delete ${linode_id}"
+  exit 1
+fi
 # now launch docker container
 echo "Launch kamprath/multistreaming-server:latest Docker image."
 docker_proc_id=$(ssh root@"$linode_ip_addr" \

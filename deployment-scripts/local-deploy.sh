@@ -1,4 +1,5 @@
 #!/bin/bash
+
 print_help_and_exit()
 {
   echo "Usage: "
@@ -19,6 +20,7 @@ build_docker_image_locally()
   if [ $RTMP_SERVER_DOCKER_IMAGE_NAME == $DEFAULT_DOCKER_HUB_IMAGE_NAME ]; then
     RTMP_SERVER_DOCKER_IMAGE_NAME="multistreaming-server:latest"
   fi
+  echo "Building Docker image '${RTMP_SERVER_DOCKER_IMAGE_NAME}'"
   docker build -t $RTMP_SERVER_DOCKER_IMAGE_NAME $BASEDIR/../multistreaming-server/
 }
 
@@ -54,15 +56,14 @@ fi
 if [ -z $RTMP_SERVER_CONFIG_FILEPATH ]; then
   echo "You must define a filepath to the streaming server configuration JSON file. Use the -c option."
 fi
-echo "RTMP_SERVER_DOCKER_IMAGE_NAME = $RTMP_SERVER_DOCKER_IMAGE_NAME"
 
 #
-echo "Launching $RTMP_SERVER_DOCKER_IMAGE_NAME Docker image."
 config_file_absolute_path="$(cd "$(dirname "$RTMP_SERVER_CONFIG_FILEPATH")"; pwd)/$(basename "$RTMP_SERVER_CONFIG_FILEPATH")"
+echo "Launching $RTMP_SERVER_DOCKER_IMAGE_NAME Docker image with config at '${config_file_absolute_path}'."
 docker_proc_id=$( \
   docker run -d -p 80:80 -p 1935:1935 \
     --env MULTISTREAMING_PASSWORD=${RTMP_SERVER_STREAM_PASSWORD} \
-    -v ${config_file_absolute_path}:/rtmp-configuation.json \
+    -v "${config_file_absolute_path}":/rtmp-configuation.json \
     ${RTMP_SERVER_DOCKER_IMAGE_NAME} \
 )
 docker_short_proc_id=$(echo $docker_proc_id | cut -c1-12)

@@ -2,6 +2,9 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+* Created a deployment script for running the `multistreaming-server` locally.
+
 ### Changed
 * Improved error handling in the RTMP configuration generation script.
 * Improved error handling in the Lindode deploy script.

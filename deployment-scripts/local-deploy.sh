@@ -20,7 +20,7 @@ build_docker_image_locally()
   if [ $RTMP_SERVER_DOCKER_IMAGE_NAME == $DEFAULT_DOCKER_HUB_IMAGE_NAME ]; then
     RTMP_SERVER_DOCKER_IMAGE_NAME="multistreaming-server:latest"
   fi
-  echo "Building Docke image '${RTMP_SERVER_DOCKER_IMAGE_NAME}'"
+  echo "Building Docker image '${RTMP_SERVER_DOCKER_IMAGE_NAME}'"
   docker build -t $RTMP_SERVER_DOCKER_IMAGE_NAME $BASEDIR/../multistreaming-server/
 }
 
@@ -58,8 +58,8 @@ if [ -z $RTMP_SERVER_CONFIG_FILEPATH ]; then
 fi
 
 #
-echo "Launching $RTMP_SERVER_DOCKER_IMAGE_NAME Docker image."
 config_file_absolute_path="$(cd "$(dirname "$RTMP_SERVER_CONFIG_FILEPATH")"; pwd)/$(basename "$RTMP_SERVER_CONFIG_FILEPATH")"
+echo "Launching $RTMP_SERVER_DOCKER_IMAGE_NAME Docker image with config at '${config_file_absolute_path}'."
 docker_proc_id=$( \
   docker run -d -p 80:80 -p 1935:1935 \
     --env MULTISTREAMING_PASSWORD=${RTMP_SERVER_STREAM_PASSWORD} \

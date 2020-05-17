@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Added
 * Created a deployment script for running the `multistreaming-server` locally.
+* Created a deployment script for the [UpCloud cloud hosting service](https://upcloud.com/signup/?promo=A2CVWA).
 
 ### Changed
 * Improved error handling in the RTMP configuration generation script.
@@ -22,7 +23,7 @@ All notable changes to this project will be documented in this file.
 * Migrated
 
 ### Added
-* Created a deployment script for the Linode cloud hosting service.
+* Created a deployment script for the [Linode cloud hosting service](https://www.linode.com/?r=37246e0d6a6198293308e698647804fbfe02845e).
 
 ### Fixed
 * Corrected how transcoding is implemented: larger buffer, better audio

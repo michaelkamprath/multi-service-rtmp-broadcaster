@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [0.3.1]
 ### Added
 * Created a deployment script for running the `multistreaming-server` locally.
 * Created a deployment script for the [UpCloud cloud hosting service](https://upcloud.com/signup/?promo=A2CVWA).
@@ -40,6 +42,7 @@ All notable changes to this project will be documented in this file.
 * First verison!
 
 
-[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.0...HEAD
+[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.1...HEAD
+[0.3.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.1.2...v0.2.0

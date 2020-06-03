@@ -3,7 +3,7 @@
 print_help_and_exit()
 {
   echo "Usage: "
-  echo "    local-deploy.sh [-c /path/to/config.json] [-s <streaming password>] [-b]"
+  echo "    local-deploy.sh [-c /path/to/config.json] [-s <streaming password>] [-d <docker image name>] [-b]"
   echo ""
   echo "Environment Variables (can be used instead of command arguments): "
   echo "    RTMP_SERVER_CONFIG_FILEPATH    : path to RTMP server config JSON file. Can replace -c option."
@@ -27,19 +27,23 @@ build_docker_image_locally()
 DEFAULT_DOCKER_HUB_IMAGE_NAME="kamprath/multistreaming-server:latest"
 RTMP_SERVER_DOCKER_IMAGE_NAME=${RTMP_SERVER_DOCKER_IMAGE_NAME:-$DEFAULT_DOCKER_HUB_IMAGE_NAME}
 
+build_locally=false
 # check arguments passed to this script
-while getopts "bc:s:h" option; do
+while getopts "c:s:d:bh" option; do
   case "${option}" in
     b)
       # By default this script pulls from Docker hub. This ooption
       # forces a local build of the Docker image.
-      build_docker_image_locally
+      build_locally=true
       ;;
     c)
       RTMP_SERVER_CONFIG_FILEPATH=$OPTARG
       ;;
     s)
       RTMP_SERVER_STREAM_PASSWORD=$OPTARG
+      ;;
+    d)
+      RTMP_SERVER_DOCKER_IMAGE_NAME=$OPTARG
       ;;
     h)
       print_help_and_exit
@@ -57,7 +61,12 @@ if [ -z $RTMP_SERVER_CONFIG_FILEPATH ]; then
   echo "You must define a filepath to the streaming server configuration JSON file. Use the -c option."
 fi
 
-#
+# Build image if needed
+if [ "$build_locally" = true ]; then
+    build_docker_image_locally
+fi
+
+# Launch the docker image
 config_file_absolute_path="$(cd "$(dirname "$RTMP_SERVER_CONFIG_FILEPATH")"; pwd)/$(basename "$RTMP_SERVER_CONFIG_FILEPATH")"
 echo "Launching $RTMP_SERVER_DOCKER_IMAGE_NAME Docker image with config at '${config_file_absolute_path}'."
 docker_proc_id=$( \

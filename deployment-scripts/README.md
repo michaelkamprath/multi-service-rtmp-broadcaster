@@ -66,7 +66,8 @@ The script is run in the following manner:
 When running this script, it takes the following arguments:
 * `-c /path/to/config.json` - The file path the the JSON file containing the multistreaming server configuration. _REQUIRED_
 * `-s stream_password` - The password that someone needs to use to push a stream to the rebroadcasting server. _REQUIRED_
-* `-b` - When present, the Docker image will be built locally (script assumes it has not been moved from this git repository). When not present, the docker image will be pull from Docker Hub.
+* `-b` - When present, the Docker image will be built locally (script assumes it has not been moved from this git repository). When not present, the docker image will be pull from Docker Hub. There are no arguments to option.
+* `-d` - Use to indicate the Docker image tag name that should be used for either the image built with the `-b` flag or pulled if `-b` is not present. If not present, the default image tag is `multistreaming-server:latest` for local builds using the `-b` option, and `kamprath/multistreaming-server:latest` if not building locally. It is recommended that this option does not get set and thus the default image tag values are used, but this option is provided if you "know what you are doing".
 * `-h` - This will display more detailed information on how to use the script, including environment variables that are supported.
 
 If the script successfully completes, you will be running a Docker container locally with the Multi-Service RTMP Broadcaster software running. The script also prints some useful information and commands to use at the end of its run. The IP address you should use to configure your streaming software's destination is `127.0.0.1` or `localhost`.

@@ -16,7 +16,7 @@ Once built, start the docker image on a host that has sufficient bandwidth to ha
 ```
 docker run -it -p 80:80 -p 1935:1935 \
   --env MULTISTREAMING_PASSWORD=__made_up_password__ \
-  -v /path/to/my-rtmp-config.json:/rtmp-configuation.json
+  -v /path/to/my-rtmp-config.json:/rtmp-configuration.json
   multistreaming-server:latest
 ```
 
@@ -26,7 +26,7 @@ Note that an environment variable is set when running the Docker image:
 
 * `MULTISTREAMING_PASSWORD` _(REQUIRED)_ - This is a password you define and will be used by your steaming software. This is a marginally secure way to prevent other people from pushing to your stream.
 
-You must also create and JSON file with the RTMP rebroadcasting configuration you desire. This file should get mapped from your local file system to the `/rtmp-configuation.json` file path within the Docker container. The JSON file has the following elements:
+You must also create and JSON file with the RTMP rebroadcasting configuration you desire. This file should get mapped from your local file system to the `/rtmp-configuration.json` file path within the Docker container. The JSON file has the following elements:
 
 * `endpoint`- This is the name of the RTMP ingest endpoint that the source stream will be pushed to. Defaults to `live` if not specified.
 * `rebroadcastList`- _Required_ Contains a list of JSON objects that each configure a distinct RTMP destination that the stream pushed to the ingest endpoint will be rebroadcasted to. At least one destination should be configured. There is no specific limit on the number of destinations except for the hardware limitations of your host. Each destination is configured with the following JSON elements:
@@ -35,14 +35,14 @@ You must also create and JSON file with the RTMP rebroadcasting configuration yo
   * `regionCode` - If `periscope` is specified as the platform for this destination, this is the two letter region code that is part of the Periscope server URL. If undefined, it will default to `ca` (the "US West" region)
   * `streamKey` - This is the stream key that identifies the unique stream on the specified platform. This value is provided by the platform. This element must be provided for all `platform` types except for `custom` and `microsoft-stream`.
   * `fullRTMPURL` - If `custom` or `microsoft-stream` is specified in the `platform`, the URL specified in this element is used for the forming destination URL. This should include the `rtmp://` prefix. For the `microsoft-stream` platform, this is the full URL provided in their stream set up. This element is ignored for all other platform types.
-  * `transcode` - If present, the stream will be trancoded before rebroadcasting it to this list item's destination. Note that when using this transcoding, the stream will be trancoded to 30 FPS and CBR bit rate. The value is a JSON object that contains the following configuration elements:
+  * `transcode` - If present, the stream will be transcoded before rebroadcasting it to this list item's destination. Note that when using this transcoding, the stream will be trancoded to 30 FPS and CBR bit rate. The value is a JSON object that contains the following configuration elements:
     * `pixels` - The pixel dimension that the stream should be transcoded to. Formatted like "1920x1080". If not specified, defaults to "1280x720".
     * `videoBitRate` - The video bit rate that should be used when sending the stream to this destination. Should be a number followed by "k" or "m" for kilo- and mega- bits-per-second. If not specified defaults to "4500k".
     * `videoKeyFrameSecs` - The number of seconds between key frames in the transcoded stream. If not specified, defaults to 2.
     * `audioBitRate` - The bit rate that should be used for the transcoded audio signal. Should be a number followed by "k" or "m" for kilo- and mega- bits-per-second. If not specified, defaults to "160k". If neither `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
     * `audioSampleRate` - The sampling rate to be used for the transcoded audio signal. Should be an integer indicating the sampling Hertz. If not specified, defaults to `48000`. If neither `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
 
-Here is an example of the JSON configuraiton file:
+Here is an example of the JSON configuration file:
 ```
 {
   "endpoint": "live",

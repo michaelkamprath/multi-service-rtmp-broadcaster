@@ -175,7 +175,7 @@ def addRTMPPushConfiguration(orig_rtmp_conf, block_config, endpoint_name):
 
 
 if len(sys.argv) != 2:
-    print("Must pass a single argument of the JSON configuraiton file path.", file=sys.stderr)
+    print("Must pass a single argument of the JSON configuration file path.", file=sys.stderr)
     sys.exit(1)
 
 try:

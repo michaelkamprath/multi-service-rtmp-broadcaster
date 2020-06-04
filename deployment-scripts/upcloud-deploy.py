@@ -209,7 +209,7 @@ res = subprocess.run(
     'ssh rtmpserver@{0} '
         '"docker run -d -p 80:80 -p 1935:1935 '
         '--env MULTISTREAMING_PASSWORD={1} '
-        '-v /home/rtmpserver/rtmp_server_config.json:/rtmp-configuation.json '
+        '-v /home/rtmpserver/rtmp_server_config.json:/rtmp-configuration.json '
         'kamprath/multistreaming-server:latest"'.format(
             ip_addr, rtmp_streaming_password
         ),

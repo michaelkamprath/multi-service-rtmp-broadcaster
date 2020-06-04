@@ -118,7 +118,7 @@ echo "Launch kamprath/multistreaming-server:latest Docker image."
 docker_proc_id=$(ssh root@"$linode_ip_addr" \
   "docker run -d -p 80:80 -p 1935:1935 " \
     "--env MULTISTREAMING_PASSWORD=${RTMP_SERVER_STREAM_PASSWORD} " \
-    "-v /root/rtmp_server_config.json:/rtmp-configuation.json " \
+    "-v /root/rtmp_server_config.json:/rtmp-configuration.json " \
     "kamprath/multistreaming-server:latest" \
 )
 echo "Started Docker container: $docker_proc_id"

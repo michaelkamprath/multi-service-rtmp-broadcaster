@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+* Corrected a spelling error in the file path that the Docker image looks for the JSON configuration.
+
 ## [0.3.1]
 ### Added
 * Created a deployment script for running the `multistreaming-server` locally.

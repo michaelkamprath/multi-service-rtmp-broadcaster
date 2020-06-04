@@ -72,7 +72,7 @@ echo "Launching $RTMP_SERVER_DOCKER_IMAGE_NAME Docker image with config at '${co
 docker_proc_id=$( \
   docker run -d -p 80:80 -p 1935:1935 \
     --env MULTISTREAMING_PASSWORD=${RTMP_SERVER_STREAM_PASSWORD} \
-    -v "${config_file_absolute_path}":/rtmp-configuation.json \
+    -v "${config_file_absolute_path}":/rtmp-configuration.json \
     ${RTMP_SERVER_DOCKER_IMAGE_NAME} \
 )
 docker_short_proc_id=$(echo $docker_proc_id | cut -c1-12)

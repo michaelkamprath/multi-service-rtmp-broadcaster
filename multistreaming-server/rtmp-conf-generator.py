@@ -62,8 +62,24 @@ RTMP_TRANSCODE_BLOCK = """
         }
 """
 
+RTMP_ICECAST_BLOCK = """
+        application %%BLOCK_NAME%% {
+            live on;
+            record off;
+
+            # Only allow localhost to publish
+            allow publish 127.0.0.1;
+            deny publish all;
+
+            # Transcode and push (audio only) to Icecast
+            exec ffmpeg -re -vn -i rtmp://localhost:1935/$app/$name
+                %%AUDIO_OPTS%%
+                -content_type %%CONTENT_TYPE%% -f %%FORMAT%% %%PUSH_URL%%;
+        }
+"""
+
 RTMP_TRANSCODE_AUDIO_OPTS_COPY = "-c:a copy"
-RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM = "-c:a libfdk_aac -b:a %%AUDIO_BIT_RATE%% -ar %%AUDIO_SAMPLE_RATE%%"
+RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM = "-c:a %%AUDIO_CODEC%% -b:a %%AUDIO_BIT_RATE%% -ar %%AUDIO_SAMPLE_RATE%%"
 
 PUSH_URL_YOUTUBE = "rtmp://a.rtmp.youtube.com/live2/%%STREAM_KEY%%"
 PUSH_URL_FACEBOOK = "rtmp://127.0.0.1:19350/rtmp/%%STREAM_KEY%%"
@@ -114,6 +130,8 @@ def generatePlatormPushURL(block_config):
         push_url = PUSH_URL_MIXCLOUD.replace('%%STREAM_KEY%%', block_config['streamKey'])
     elif block_config['platform'] == 'dlive':
         push_url = PUSH_URL_DLIVE.replace('%%STREAM_KEY%%', block_config['streamKey'])
+    elif block_config['platform'] == 'icecast':
+        push_url = block_config['icecastURL']
     else:
         print("ERROR - an unsupported platform type was provided in destination configation", file=sys.stderr)
         exit(1)
@@ -123,42 +141,64 @@ def generatePlatormPushURL(block_config):
 def createRTMPApplicationBlocks(block_name, block_config):
     app_block = ''
     primary_block_name = block_name
-    if 'transcode' in block_config:
+    is_icecast = block_config['platform'] == 'icecast'
+    audio_opts = ''
+    if 'transcode' in block_config or is_icecast:
         primary_block_name += '_transcoded'
         tc_conf = block_config['transcode']
         pixel_size = tc_conf['pixels'] if 'pixels' in tc_conf else '1280x720'
         video_bit_rate = tc_conf['videoBitRate'] if 'videoBitRate' in tc_conf else '4500k'
         key_frames = 30 * \
             tc_conf['videoKeyFrameSecs'] if 'videoKeyFrameSecs' in tc_conf else 60
-        if ('audioBitRate' in tc_conf) or ('audioSampleRate' in tc_conf):
+        if ('audioCodec' in tc_conf) or ('audioBitRate' in tc_conf) or ('audioSampleRate' in tc_conf):
+            audio_codec = tc_conf['audioCodec'] if 'audioCodec' in tc_conf else 'libfdk_aac'
             audio_bit_rate = tc_conf['audioBitRate'] if 'audioBitRate' in tc_conf else '160k'
             audio_sample_rate = str(tc_conf['audioSampleRate']) if 'audioSampleRate' in tc_conf else '48000'
             audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM.replace(
+                    '%%AUDIO_CODEC%%', audio_codec
+                ).replace(
                     '%%AUDIO_BIT_RATE%%', audio_bit_rate
                 ).replace(
                     '%%AUDIO_SAMPLE_RATE%%', audio_sample_rate
-                    )
+                )
         else:
             audio_opts = RTMP_TRANSCODE_AUDIO_OPTS_COPY
 
-        app_block += RTMP_TRANSCODE_BLOCK.replace(
+        if not is_icecast:
+            app_block += RTMP_TRANSCODE_BLOCK.replace(
+                    '%%BLOCK_NAME%%', block_name
+                ).replace(
+                    '%%DEST_BLOCK_NAME%%', primary_block_name
+                ).replace(
+                    '%%PIXEL_SIZE%%', pixel_size
+                ).replace(
+                    '%%VIDEO_BIT_RATE%%', video_bit_rate
+                ).replace(
+                    '%%KFS%%', str(key_frames)
+                ).replace(
+                    '%%AUDIO_OPTS%%', audio_opts
+                )
+
+    if is_icecast:
+        app_block += RTMP_ICECAST_BLOCK.replace(
                 '%%BLOCK_NAME%%', block_name
             ).replace(
-                '%%DEST_BLOCK_NAME%%', primary_block_name
-            ).replace(
-                '%%PIXEL_SIZE%%', pixel_size
-            ).replace(
-                '%%VIDEO_BIT_RATE%%', video_bit_rate
-            ).replace(
-                '%%KFS%%', str(key_frames)
+                '%%PUSH_URL%%', generatePlatormPushURL(block_config)
             ).replace(
                 '%%AUDIO_OPTS%%', audio_opts
+            ).replace(
+                '%%CONTENT_TYPE%%', block_config['contentType'] if 'contentType' in block_config else 'audio/aac'
+            ).replace(
+                '%%FORMAT%%', block_config['format'] if 'format' in block_config else 'adts'
+            ).replace(
+                '%%PUSH_URL%%', block_config['icecastURL']
             )
-    app_block += RTMP_PUSH_BLOCK.replace(
-            '%%BLOCK_NAME%%', primary_block_name
-        ).replace(
-            '%%PUSH_URL%%', generatePlatormPushURL(block_config)
-        )
+    else:
+        app_block += RTMP_PUSH_BLOCK.replace(
+                '%%BLOCK_NAME%%', primary_block_name
+            ).replace(
+                '%%PUSH_URL%%', generatePlatormPushURL(block_config)
+            )
     return app_block
 
 

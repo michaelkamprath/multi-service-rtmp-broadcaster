@@ -39,14 +39,18 @@ You must also create and JSON file with the RTMP rebroadcasting configuration yo
     * `pixels` - The pixel dimension that the stream should be transcoded to. Formatted like "1920x1080". If not specified, defaults to "1280x720".
     * `videoBitRate` - The video bit rate that should be used when sending the stream to this destination. Should be a number followed by "k" or "m" for kilo- and mega- bits-per-second. If not specified defaults to "4500k".
     * `videoKeyFrameSecs` - The number of seconds between key frames in the transcoded stream. If not specified, defaults to 2.
-    * `audioBitRate` - The bit rate that should be used for the transcoded audio signal. Should be a number followed by "k" or "m" for kilo- and mega- bits-per-second. If not specified, defaults to "160k". If neither `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
-    * `audioSampleRate` - The sampling rate to be used for the transcoded audio signal. Should be an integer indicating the sampling Hertz. If not specified, defaults to `48000`. If neither `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
+    * `audioCodec` - The codec that should be used for the transcoded audio signal. If not specified, defaults to `libfdk_aac`. If none of `audioCodec`, `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
+    * `audioBitRate` - The bit rate that should be used for the transcoded audio signal. Should be a number followed by "k" or "m" for kilo- and mega- bits-per-second. If not specified, defaults to "160k". If none of `audioCodec`, `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
+    * `audioSampleRate` - The sampling rate to be used for the transcoded audio signal. Should be an integer indicating the sampling Hertz. If not specified, defaults to `48000`. If none of `audioCodec`, `audioBitRate` or `audioSampleRate` are specified, then the audio signal is simply copied from source with no alteration.
+  * `icecastURL` - if `icecast` is specified as the platform for this destination, this is the URL the audio stream will be pushed to. Must be in the format `icecast://username:password@hostname:port/mount`.
+  * `contentType` - If `icecast` is specified as the platform for this destination, this is the content type sent to the Icecast server. Defaults to `audo/aac`.
+  * `format` - If `icecast` is specified as the platform for this destination, this is the output format sent to the Icecast server. If not specified, defaults to `adts`.
 
 Here is an example of the JSON configuration file:
 ```
 {
   "endpoint": "live",
-  "rebroacastList": [
+  "rebroadcastList": [
     {
       "name": "youtube",
       "platform": "youtube",
@@ -81,6 +85,23 @@ Here is an example of the JSON configuration file:
         "videoKeyFrameSecs": 3,
         "audioBitRate": "128k",
         "audioSampleRate": 44100
+      }
+    },
+    {
+      "name": "icecast-1",
+      "platform": "icecast",
+      "icecastURL": "icecast://source:password@icecast-host:8000/stream"
+    },
+    {
+      "name": "icecast-2",
+      "platform": "icecast",
+      "icecastURL": "icecast://source:password@icecast-host:8000/stream2",
+      "contentType": "audio/mpeg",
+      "format": "mp3",
+      "transcode": {
+        "audioCodec": "libmp3lame",
+        "audioBitRate": "192k",
+        "audioSampleRate": "44100"
       }
     }
   ]

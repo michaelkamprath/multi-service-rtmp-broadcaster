@@ -71,6 +71,8 @@ PUSH_URL_TWITCH = "rtmp://live-cdg.twitch.tv/app/%%STREAM_KEY%%"
 PUSH_URL_INSTAGRAM = "rtmp://127.0.0.1:19351/rtmp/%%STREAM_KEY%%"
 PUSH_URL_PERISCOPE = "rtmp://%%REGION_CODE%%.pscp.tv:80/x/%%STREAM_KEY%%"
 PUSH_URL_MICROSOFT_STREAM = "%%RTMP_URL%% app=live/%%APP_NAME%%"
+PUSH_URL_MIXCLOUD = "rtmp://rtmp.mixcloud.com/broadcast/%%STREAM_KEY%%"
+PUSH_URL_DLIVE = "rtmp://stream.dlive.io/live?key=%%STREAM_KEY%%"
 #
 #
 #
@@ -108,6 +110,10 @@ def generatePlatormPushURL(block_config):
             ).replace(
                 '%%APP_NAME%%', ms_app_name
             )
+    elif block_config['platform'] == 'mixcloud':
+        push_url = PUSH_URL_MIXCLOUD.replace('%%STREAM_KEY%%', block_config['streamKey'])
+    elif block_config['platform'] == 'dlive':
+        push_url = PUSH_URL_DLIVE.replace('%%STREAM_KEY%%', block_config['streamKey'])
     else:
         print("ERROR - an unsupported platform type was provided in destination configation", file=sys.stderr)
         exit(1)

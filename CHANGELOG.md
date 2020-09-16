@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Added
+* Support for Mixcloud and DLive.
+
 ### Fixed
 * Corrected a spelling error in the file path that the Docker image looks for the JSON configuration.
 

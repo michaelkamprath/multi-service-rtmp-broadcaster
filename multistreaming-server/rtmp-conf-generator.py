@@ -72,7 +72,7 @@ PUSH_URL_INSTAGRAM = "rtmp://127.0.0.1:19351/rtmp/%%STREAM_KEY%%"
 PUSH_URL_PERISCOPE = "rtmp://%%REGION_CODE%%.pscp.tv:80/x/%%STREAM_KEY%%"
 PUSH_URL_MICROSOFT_STREAM = "%%RTMP_URL%% app=live/%%APP_NAME%%"
 PUSH_URL_MIXCLOUD = "rtmp://rtmp.mixcloud.com/broadcast/%%STREAM_KEY%%"
-PUSH_URL_DLIVE = "rtmp://stream.dlive.io/live?key=%%STREAM_KEY%%"
+PUSH_URL_DLIVE = "rtmp://stream.dlive.tv/live/%%STREAM_KEY%%"
 #
 #
 #

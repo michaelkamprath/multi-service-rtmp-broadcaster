@@ -5,6 +5,7 @@ All notable changes to this project will be documented in this file.
 
 ### Added
 * Support for Mixcloud and DLive.
+* Support for sending audio streams to IceCast
 
 ### Fixed
 * Corrected a spelling error in the file path that the Docker image looks for the JSON configuration.

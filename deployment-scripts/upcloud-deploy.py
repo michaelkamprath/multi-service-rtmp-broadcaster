@@ -114,7 +114,7 @@ if upcloud_user is None \
     exit(2)
 
 # Connect to UpCloud
-manager = up.CloudManager(upcloud_user, upcloud_password)
+manager = up.CloudManager(upcloud_user, upcloud_password, timeout=60)
 manager.authenticate()
 print('Connected to UpCloud API as user "{0}"'.format(upcloud_user))
 
@@ -164,6 +164,10 @@ print(
 )
 
 # wait for the server to finish booting and installing docker
+print('Waiting 7 minutes for server set up to complete ...')
+time.sleep(60)
+print('Waiting 6 minutes for server set up to complete ...')
+time.sleep(60)
 print('Waiting 5 minutes for server set up to complete ...')
 time.sleep(60)
 print('Waiting 4 minutes for server set up to complete ...')
@@ -179,29 +183,34 @@ time.sleep(60)
 print('Adding IP address {0} to known hosts ...'.format(ip_addr))
 res = subprocess.run('ssh-keygen -R {}'.format(ip_addr), shell=True)
 if res.returncode != 0:
-    print('ERROR when removing server IP from known hosts.\n{0}', res.stderr)
+    print('ERROR when removing server IP from known hosts.\n    {0}'.format(res.stderr))
     exit(1)
-else:
+elif res.stdout is not None:
     print(res.stdout)
 res = subprocess.run('ssh-keyscan -T 240 {0} >> ~/.ssh/known_hosts'.format(ip_addr), shell=True)
 if res.returncode != 0:
-    print('ERROR when adding server IP to known hosts.\n{0}', res.stderr)
+    print('ERROR when adding server IP to known hosts.\n    {0}'.format(res.stderr))
     exit(1)
-else:
+elif res.stdout is not None:
     print(res.stdout)
 
 # send configuration file to Server
-res = subprocess.run(
-    'scp {0} rtmpserver@{1}:/home/rtmpserver/rtmp_server_config.json'.format(
+scp_cmd = 'scp \'{0}\' rtmpserver@{1}:/home/rtmpserver/rtmp_server_config.json'.format(
             rtmp_config_filepath,
             ip_addr
-        ),
+        )
+print('Sending configuration file to serverr with: {0}'.format(scp_cmd))
+res = subprocess.run(
+    scp_cmd,
     shell=True
 )
 if res.returncode != 0:
-    print('ERROR when sending RTMP configuration to server.\n{0}', res.stderr)
+    print(
+    	'ERROR when sending RTMP configuration to server.\n'
+    	'    returncode = {0}\n    stderr = {1}'.format(res.returncode, res.stderr)
+    )
     exit(1)
-else:
+elif res.stdout is not None:
     print(res.stdout)
 
 # start the docker subprocess

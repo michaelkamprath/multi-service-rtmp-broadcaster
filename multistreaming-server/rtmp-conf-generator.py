@@ -14,7 +14,7 @@ rtmp {
         notify_method get;
 
         application %%ENDPOINT_NAME%% {
-            on_publish http://localhost/auth;
+            on_publish http://127.0.0.1/auth;
             live on;
             record all;
             record_path /var/www/html/recordings;
@@ -35,7 +35,7 @@ RTMP_PUSH_BLOCK = """
             live on;
             record off;
 
-            # Only allow localhost to publish
+            # Only allow 127.0.0.1 to publish
             allow publish 127.0.0.1;
             deny publish all;
 
@@ -50,15 +50,15 @@ RTMP_TRANSCODE_BLOCK = """
             live on;
             record off;
 
-            # Only allow localhost to publish
+            # Only allow 127.0.0.1 to publish
             allow publish 127.0.0.1;
             deny publish all;
 
             # need to transcode
-            exec ffmpeg -re -i rtmp://localhost:1935/$app/$name
+            exec ffmpeg -re -i rtmp://127.0.0.1:1935/$app/$name
                 -c:v libx264 -s %%PIXEL_SIZE%% -b:v %%VIDEO_BIT_RATE%% -bufsize 12M -r 30 -x264opts "keyint=%%KFS%%:min-keyint=%%KFS%%:no-scenecut:nal-hrd=cbr"
                 %%AUDIO_OPTS%%
-                -f flv rtmp://localhost:1935/%%DEST_BLOCK_NAME%%/$name;
+                -f flv rtmp://127.0.0.1:1935/%%DEST_BLOCK_NAME%%/$name;
         }
 """
 
@@ -169,7 +169,7 @@ def addRTMPPushConfiguration(orig_rtmp_conf, block_config, endpoint_name):
     block_name = endpoint_name + '-' + block_config['name']
     push_pos = orig_rtmp_conf.index('            # RTMP_PUSH_DIRECTIVE_MARKER')
     rtmp_conf = orig_rtmp_conf[:push_pos] \
-        + '            push rtmp://localhost/' \
+        + '            push rtmp://127.0.0.1/' \
         + block_name \
         + ';\n' \
         + orig_rtmp_conf[push_pos:]

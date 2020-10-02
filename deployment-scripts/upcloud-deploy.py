@@ -164,6 +164,8 @@ print(
 )
 
 # wait for the server to finish booting and installing docker
+print('Waiting 8 minutes for server set up to complete ...')
+time.sleep(60)
 print('Waiting 7 minutes for server set up to complete ...')
 time.sleep(60)
 print('Waiting 6 minutes for server set up to complete ...')

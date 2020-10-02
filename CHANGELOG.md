@@ -10,6 +10,7 @@ All notable changes to this project will be documented in this file.
 * Corrected a spelling error in the file path that the Docker image looks for the JSON configuration.
 * Adjusted the timing of the UpCloud deployment script to better handle timing variation in the cloud service.
 * Fixed a bug in the UpCloud deployment script that manifested when the configuration filepath has spaces in it.
+* Changed `localhost` references to `127.0.0.1` to prevent IPv6 resolution. 
 
 ## [0.3.1]
 ### Added

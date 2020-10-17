@@ -28,28 +28,26 @@ RUN set -x \
  && chown nobody:nobody -R /var/www/html \
  && chown stunnel:stunnel /var/run/stunnel/
 
-COPY index.html /usr/local/nginx/html/
-COPY nginx-conf/nginx.conf /base-nginx.conf
-COPY launch-nginx-server.sh launch-nginx-server.sh
-COPY rtmp-conf-generator.py rtmp-conf-generator.py
+COPY Pipfile Pipfile.lock /
+RUN cp /nginx-rtmp-module-${RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/ \
+ && pip3 install supervisor pipenv \
+ && pipenv install --system --deploy
 
+COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
 COPY stunnel-conf/etc-stunnel-conf.d-fb.conf /etc/stunnel/conf.d/fb.conf
 COPY stunnel-conf/etc-stunnel-conf.d-ig.conf /etc/stunnel/conf.d/ig.conf
 COPY stunnel-conf/etc-stunnel-stunnel.conf /etc/stunnel/stunnel.conf
 
-# forward request and error logs to docker log collector
-RUN ln -sf /dev/stdout /usr/local/nginx/logs/access.log
-RUN ln -sf /dev/stderr /usr/local/nginx/logs/error.log
-
-RUN cp /nginx-rtmp-module-${RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/
+COPY index.html /usr/local/nginx/html/
+COPY nginx-conf/nginx.conf /base-nginx.conf
+COPY launch-nginx-server.sh launch-nginx-server.sh
+COPY rtmp-conf-generator.py nginx-template.conf.j2 /
 
 EXPOSE 1935
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
-
-# Remove the entry point from jrottenberg/ffmpeg
 ENTRYPOINT []
 
-CMD ["/bin/sh", "/launch-nginx-server.sh"]
+CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

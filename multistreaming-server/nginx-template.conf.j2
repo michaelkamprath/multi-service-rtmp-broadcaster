@@ -1,0 +1,79 @@
+{% if nginx_error_log %} error_log /dev/stderr debug; {% endif %}
+
+rtmp {
+    server {
+        listen 1935;
+        chunk_size 4096;
+        notify_method get;
+
+        application {{ endpoint_name }} {
+            on_publish http://127.0.0.1/auth;
+            live on;
+            record {{ record_mode }};
+            record_path /var/www/html/recordings;
+            record_unique on;
+
+            # Define the applications to which the stream will be pushed, comment them out to disable the ones not needed:
+            {% for name in transcode_configs.keys() %}
+            push rtmp://127.0.0.1:1935/transcode_{{name}};
+            {% endfor %}
+            {% for application_endpoint in push_only_applications %}
+            push rtmp://127.0.0.1:1935/{{application_endpoint}};
+            {% endfor %}
+        }
+
+        # transcode definitions
+        {% for name, transcode_config in transcode_configs.items() %}
+        application transcode_{{name}} {
+            live on;
+            record off;
+
+            # Only allow 127.0.0.1 to publish
+            allow publish 127.0.0.1;
+            deny publish all;
+
+            # need to transcode
+            exec ffmpeg -re -i rtmp://127.0.0.1:1935/$app/$name
+                -c:v libx264 
+                -s {{transcode_config['pixels']}}
+                -b:v {{transcode_config['videoBitRate']}}
+                -bufsize 12M 
+                -r {{transcode_config['videoFrameRate']}}
+                -x264opts "keyint={{transcode_config['keyFrames']}}:min-keyint={{transcode_config['keyFrames']}}:no-scenecut:nal-hrd=cbr"
+                {{transcode_config['audioOpts']}} 
+                {% if transcode_config['maxMuxingQueueSize'] %}-max_muxing_queue_size {{transcode_config['maxMuxingQueueSize']}}{% endif %}
+                -f flv rtmp://127.0.0.1:1935/transcode_output_{{name}} 
+                {% if transcode_config['logFfmpeg'] %} 2>>/tmp/ffmpeg-{{name}}.log {% endif %}
+                ;
+        }
+
+        application transcode_output_{{name}} {
+            live on;
+            record off;
+
+            # Only allow 127.0.0.1 to publish
+            allow publish 127.0.0.1;
+            deny publish all;
+
+            {% for application_endpoint in transcode_config['applicationEndpoints'] %}
+            push rtmp://127.0.0.1:1935/{{application_endpoint}};
+            {% endfor %}
+        }
+        {% endfor %}
+
+        # application defintions
+        {% for name, application_config in application_configs.items() %}
+        application {{ name }} {
+            live on;
+            record off;
+
+            # Only allow 127.0.0.1 to publish
+            allow publish 127.0.0.1;
+            deny publish all;
+
+            # Push URL
+            push {{ application_config['pushUrl'] }};
+        }
+        {% endfor %}
+    }
+}

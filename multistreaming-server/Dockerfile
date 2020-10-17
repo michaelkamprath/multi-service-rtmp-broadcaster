@@ -4,6 +4,9 @@ MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 ARG NGINX_VERSION=1.18.0
 ARG RTMP_REPO=uizaio
 ARG RTMP_MODULE_VERSION=1.4.0.4
+ARG TINI_VERSION=v0.19.0
+ARG SUPERVISORD_VERSION=4.2.1
+ARG PIPENV_PACKAGE_VERSION=2020.8.13
 
 RUN set -x \
  && addgroup -S stunnel \
@@ -22,16 +25,18 @@ RUN set -x \
  && ./configure --with-http_ssl_module --add-module=../nginx-rtmp-module-${RTMP_MODULE_VERSION} \
  && make \
  && make install \
+ && cp /nginx-rtmp-module-${RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/ \
  && apk del build-deps \
  && mkdir -p /var/www/html/recordings \
  && mkdir -p /var/run/stunnel/ \
  && chown nobody:nobody -R /var/www/html \
- && chown stunnel:stunnel /var/run/stunnel/
+ && chown stunnel:stunnel /var/run/stunnel/ \
+ && wget -O /tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static \
+ && chmod +x /tini \
+ && pip3 install supervisor==${SUPERVISORD_VERSION} pipenv==${PIPENV_PACKAGE_VERSION}
 
 COPY Pipfile Pipfile.lock /
-RUN cp /nginx-rtmp-module-${RTMP_MODULE_VERSION}/stat.xsl /usr/local/nginx/html/ \
- && pip3 install supervisor pipenv \
- && pipenv install --system --deploy
+RUN  pipenv install --system --deploy
 
 COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
@@ -48,6 +53,5 @@ EXPOSE 1935
 EXPOSE 80
 
 STOPSIGNAL SIGTERM
-ENTRYPOINT []
-
+ENTRYPOINT ["/tini", "--"]
 CMD ["/usr/bin/supervisord", "-c", "/etc/supervisor/supervisord.conf"]

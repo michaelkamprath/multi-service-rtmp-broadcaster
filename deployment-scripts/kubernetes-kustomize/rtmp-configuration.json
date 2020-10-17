@@ -1,0 +1,23 @@
+{
+  "endpoint": "live",
+  "transcodeProfiles": {
+    "720_60fps": {
+      "pixels": "1280x720",
+      "videoBitRate": "4500k",
+      "videoFrameRate": 60
+    }
+  },
+  "rebroadcastList": [
+	  {
+      "name": "twitch",
+      "platform": "twitch",
+      "streamKey": "foobar"
+    },
+    {
+      "name": "fbpage",
+      "platform": "facebook",
+      "streamKey": "secretKey",
+      "transcodeProfile": "720_60fps"
+    }
+  ]
+}

@@ -1,0 +1,19 @@
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+nameSuffix: -v1
+namespace: multistreaming
+commonLabels:
+  app: multistreaming
+  version: v1
+resources:
+- deployment.yaml
+- service.yaml
+# - ingress.yaml # Optional, must configure the hostname if you need to expose the stat page as an ingress
+configMapGenerator:
+- name: multistreaming-config
+  files:
+  - rtmp-configuration.json 
+secretGenerator:
+- name: multistreaming
+  literals:
+  - password=sekritPassword

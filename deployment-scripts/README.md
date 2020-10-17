@@ -71,3 +71,20 @@ When running this script, it takes the following arguments:
 * `-h` - This will display more detailed information on how to use the script, including environment variables that are supported.
 
 If the script successfully completes, you will be running a Docker container locally with the Multi-Service RTMP Broadcaster software running. The script also prints some useful information and commands to use at the end of its run. The IP address you should use to configure your streaming software's destination is `127.0.0.1` or `localhost`.
+
+## Kubernetes
+
+When deploying to a Kubernetes cluster, you must first decide how you want the RTMP endpoint to be exposed.
+
+* Exposed RTMP/Stats port: The example manifest in this repo will crate a Service of type `NodePort` which will expose the RTMP endpoint on port 33195, and the stats endpoint on port 30080 on all the nodes. If you want to change this behavior, update `service.yaml` with the `nodePort` values you want.
+* Stream password: Stream password will be created a Kubernetes Secret in the cluster, to set the password open the file `kustomization.yaml` and find the entry with the name `multistreaming` in the list under the key `secretGenerator`. 
+* RTMP Configuration JSON: The configuration file must be placed in the same path as the `kustomization.yaml` and should be named `rtmp-configuration.json`. The deployment will automatically read this file and create it in the cluster as a configmap.
+* Kubernetes namespace: By default the manifests will be deployed to a namespace called `multistreaming`. You may change this in `kustomization.yaml`.
+
+Deployment command:
+```
+# Make sure you have your KUBECONFIG set.
+$ cd kubernetes-kustomize/ # or the path where you are storing the manifests
+$ kubectl create namespace multistreaming # the target namespace 
+$ kubectl apply -k .
+```

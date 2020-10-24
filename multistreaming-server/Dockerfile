@@ -1,7 +1,7 @@
 FROM jrottenberg/ffmpeg:4.2-alpine
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
-ARG NGINX_VERSION=1.18.0
+ARG NGINX_VERSION=1.19.2
 ARG RTMP_REPO=uizaio
 ARG RTMP_MODULE_VERSION=1.4.0.4
 

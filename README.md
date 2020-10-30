@@ -61,6 +61,7 @@ Here is an example of the JSON configuration file:
       "videoBitRate": "4500k",
       "videoFrameRate": 60
     }
+  },
   "rebroadcastList": [
     {
       "name": "youtube",
@@ -107,6 +108,15 @@ Once the Docker image is running, set up your stream software with the following
 In OBS, you would set the above parameters for a "Custom..." Service in the Stream settings.
 
 The next thing to do is start your stream!
+
+## Development
+
+In order to develop on this repository, you must have a python 3.7 environment and [`Pipenv`](https://pypi.org/project/pipenv/) installed.
+
+- Clone the repository
+- Navigate to the `multistreaming-server/` directory
+- Install dependencies and create the virtual env by running `pipenv install`
+- Activate the virtual env by `pipenv shell`
 
 ## Future work
 

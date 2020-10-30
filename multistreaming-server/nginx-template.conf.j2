@@ -42,7 +42,7 @@ rtmp {
                 -x264opts "keyint={{transcode_config['keyFrames']}}:min-keyint={{transcode_config['keyFrames']}}:no-scenecut:nal-hrd=cbr"
                 {{transcode_config['audioOpts']}} 
                 {% if transcode_config['maxMuxingQueueSize'] %}-max_muxing_queue_size {{transcode_config['maxMuxingQueueSize']}}{% endif %}
-                -f flv rtmp://127.0.0.1:1935/transcode_output_{{name}} 
+                -f flv rtmp://127.0.0.1:1935/transcode_output_{{name}}/$name
                 {% if transcode_config['logFfmpeg'] %} 2>>/tmp/ffmpeg-{{name}}.log {% endif %}
                 ;
         }

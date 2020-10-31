@@ -1,0 +1,19 @@
+apiVersion: v1
+kind: Service
+metadata:
+  name: multistreaming
+spec:
+  selector:
+    app: multistreaming
+  type: NodePort
+  ports:
+    - name: web
+      protocol: TCP
+      port: 80
+      targetPort: 80
+      nodePort: 30080
+    - name: rtmp
+      protocol: TCP
+      port: 1935
+      targetPort: 1935
+      nodePort: 31935

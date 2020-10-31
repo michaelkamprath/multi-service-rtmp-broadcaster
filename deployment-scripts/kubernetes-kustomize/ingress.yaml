@@ -1,0 +1,13 @@
+apiVersion: networking.k8s.io/v1beta1
+kind: Ingress
+metadata:
+  name: multistreaming
+spec:
+  rules:
+  - host: multistreaming.ls90.co
+    http:
+      paths:
+      - path: /
+        backend:
+          serviceName: multistreaming
+          servicePort: 80

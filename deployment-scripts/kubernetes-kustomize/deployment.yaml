@@ -1,0 +1,45 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: multistreaming
+  labels:
+    app: multistreaming
+spec:
+  selector:
+    matchLabels:
+      app: multistreaming
+  template:
+    metadata:
+      labels:
+        app: multistreaming
+    spec:
+      containers:
+      - name: multistreaming
+        image: kamprath/multistreaming-server:latest
+        imagePullPolicy: Always
+        volumeMounts:
+        - name: config-volume
+          mountPath: /rtmp-configuration.json
+          subPath: rtmp-configuration.json
+        env:
+        - name: MULTISTREAMING_PASSWORD
+          valueFrom:
+            secretKeyRef:
+              name: multistreaming
+              key: password
+        - name: CONFIG_NGINX_DEBUG
+          value: "true"
+        - name: CONFIG_FFMPEG_LOG
+          value: "true" 
+        - name: CONFIG_FFMPEG_MAX_MUXING_QUEUE_SIZE
+          value: "4096"
+        - name: CONFIG_DISABLE_RECORD
+          value: "true"
+        ports:
+        - containerPort: 80
+        - containerPort: 1935
+      volumes:
+      - name: config-volume
+        configMap:
+          name: multistreaming-config
+

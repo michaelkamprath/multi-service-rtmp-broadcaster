@@ -3,8 +3,17 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Fixed
+* Corrected bug that occurred when audio bit rated was configured in JSON using an integer
+
+## [0.4.0]
 ### Added
 * Support for Mixcloud and DLive.
+* Added support for specifying transcode profiles that can be used across multiple destination configurations.
+* Add kubernetes manifests, fix nginx logging, streamline the dockerfile
+
+### Changed
+* Refactored how processes are managed within the Docker container. Migrated to `jinja2`, use `pipfile` and `supervisord`.
 
 ### Fixed
 * Corrected a spelling error in the file path that the Docker image looks for the JSON configuration.
@@ -51,7 +60,8 @@ All notable changes to this project will be documented in this file.
 * First verison!
 
 
-[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.1...HEAD
+[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.0...HEAD
+[0.4.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.2.0...v0.3.0
 [0.2.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.1.2...v0.2.0

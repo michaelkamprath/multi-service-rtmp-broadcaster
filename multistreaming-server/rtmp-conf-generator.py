@@ -130,14 +130,14 @@ def generateTranscodeConfig(transcode_config_name, block_config, config):
     ):
         transcode_config['audioOpts'] = RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM.replace(
             '%%AUDIO_BIT_RATE%%',
-            transcode_config_block.get(
+            str(transcode_config_block.get(
                 'audioBitRate', DEFAULT_AUDIO_OPTS['audioBitRate']
-            ),
+            )),
         ).replace(
             '%%AUDIO_SAMPLE_RATE%%',
-            transcode_config_block.get(
+            str(transcode_config_block.get(
                 'audioSampleRate', DEFAULT_AUDIO_OPTS['audioSampleRate']
-            ),
+            )),
         )
     return transcode_config
 

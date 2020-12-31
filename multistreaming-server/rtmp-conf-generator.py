@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
 
+import copy
+import jinja2
 import json
+import os
 import re
 import sys
-import os
-import jinja2
 
 #
 # Configurable ENV VARS
@@ -43,7 +44,6 @@ DEFAULT_TRANSCODE_CONFIG = {
     'keyFrames': 60,
     'audioOpts': '-c:a copy',
     'logFfmpeg': True if CONFIG_FFMPEG_LOG else False,
-    'applicationEndpoints': set(),
     'maxMuxingQueueSize': int(CONFIG_FFMPEG_MAX_MUXING_QUEUE_SIZE)
     if CONFIG_FFMPEG_MAX_MUXING_QUEUE_SIZE
     else None,
@@ -118,9 +118,10 @@ def generateTranscodeConfig(transcode_config_name, block_config, config):
         )
         exit(1)
     transcode_config = {
-        key: transcode_config_block.get(key, DEFAULT_TRANSCODE_CONFIG[key])
+        key: copy.deepcopy(transcode_config_block.get(key, DEFAULT_TRANSCODE_CONFIG[key]))
         for key in default_transcode_config.keys()
     }
+    transcode_config['applicationEndpoints'] = set()
 
     if 'videoKeyFrameSecs' in transcode_config_block:
         transcode_config['keyFrames'] = 30 * transcode_config_block['videoKeyFrameSecs']

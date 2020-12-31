@@ -1,13 +1,13 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
-## [Unreleased]
-
+## [0.4.1]
 ### Changed
 * Updated `ffmpeg` to the 4.3.x version branch
 
 ### Fixed
 * Corrected bug that occurred when audio bit rated was configured in JSON using an integer
+* Corrected a bug where each transcode block pushed to all destinations
 
 ## [0.4.0]
 ### Added
@@ -64,6 +64,7 @@ All notable changes to this project will be documented in this file.
 
 
 [Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.0...HEAD
+[0.4.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.0...v0.3.1
 [0.3.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.2.0...v0.3.0

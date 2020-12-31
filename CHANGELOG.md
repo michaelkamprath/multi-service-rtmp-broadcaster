@@ -3,6 +3,9 @@ All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
 
+### Changed
+* Updated `ffmpeg` to the 4.3.x version branch
+
 ### Fixed
 * Corrected bug that occurred when audio bit rated was configured in JSON using an integer
 

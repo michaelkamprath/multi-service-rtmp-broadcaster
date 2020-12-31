@@ -1,4 +1,4 @@
-FROM jrottenberg/ffmpeg:4.2-alpine
+FROM jrottenberg/ffmpeg:4.3-alpine
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
 ARG NGINX_VERSION=1.19.2

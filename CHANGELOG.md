@@ -1,6 +1,10 @@
 # Changelog
 All notable changes to this project will be documented in this file.
 
+## [Unreleased]
+### Changed
+* Bumped jinja2 from 2.11.2 to 2.11.3
+
 ## [0.4.1]
 ### Changed
 * Updated `ffmpeg` to the 4.3.x version branch
@@ -63,7 +67,7 @@ All notable changes to this project will be documented in this file.
 * First verison!
 
 
-[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.0...HEAD
+[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.1...HEAD
 [0.4.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.0...v0.3.1

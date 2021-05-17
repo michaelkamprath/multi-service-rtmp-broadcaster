@@ -11,7 +11,7 @@ ARG PIPENV_PACKAGE_VERSION=2020.8.13
 RUN set -x \
  && addgroup -S stunnel \
  && adduser -S -D -H -h /dev/null -s /sbin/nologin -G stunnel -g stunnel stunnel \
- && echo "http://dl-3.alpinelinux.org/alpine/edge/testing/" >> /etc/apk/repositories \
+ && echo "//dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/" >> /etc/apk/repositories \
  && apk update \
  && apk add --no-cache --update stunnel ca-certificates \
  && apk add --no-cache pcre openssl stunnel gettext python3 \

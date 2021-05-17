@@ -2,9 +2,12 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+### Added
+* Support for ReStream, and by extension, platforms that ReStream supports, such as LinkedIn.
+
 ### Changed
 * Bumped jinja2 from 2.11.2 to 2.11.3
-* Updated `apk` to use the `latest-stable` rather than `edge` as `edge` appears to not be updatd.
+* Updated `apk` to use the `latest-stable` rather than `edge` as `edge` appears to not be updated.
 
 ## [0.4.1]
 ### Changed

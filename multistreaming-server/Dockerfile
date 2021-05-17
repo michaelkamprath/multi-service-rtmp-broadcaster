@@ -1,12 +1,12 @@
-FROM jrottenberg/ffmpeg:4.3-alpine
+FROM jrottenberg/ffmpeg:4.4-alpine
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
-ARG NGINX_VERSION=1.19.2
+ARG NGINX_VERSION=1.20.0
 ARG RTMP_REPO=uizaio
 ARG RTMP_MODULE_VERSION=1.4.0.4
 ARG TINI_VERSION=v0.19.0
-ARG SUPERVISORD_VERSION=4.2.1
-ARG PIPENV_PACKAGE_VERSION=2020.8.13
+ARG SUPERVISORD_VERSION=4.2.2
+ARG PIPENV_PACKAGE_VERSION=2020.11.15
 
 RUN set -x \
  && addgroup -S stunnel \

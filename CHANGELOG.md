@@ -2,12 +2,15 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+
+## [0.4.2]
 ### Added
 * Support for ReStream, and by extension, platforms that ReStream supports, such as LinkedIn.
 
 ### Changed
 * Bumped jinja2 from 2.11.2 to 2.11.3
 * Updated `apk` to use the `latest-stable` rather than `edge` as `edge` appears to not be updated.
+* Updated `ffmpeg`, `ngtnx`, `superviserd`, and `pipenv` to their latest versions.
 
 ## [0.4.1]
 ### Changed
@@ -71,7 +74,8 @@ All notable changes to this project will be documented in this file.
 * First verison!
 
 
-[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.1...HEAD
+[Unreleased]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.2...HEAD
+[0.4.2]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.1...v0.4.2
 [0.4.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.4.0...v0.4.1
 [0.4.0]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.1...v0.4.0
 [0.3.1]: https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/compare/v0.3.0...v0.3.1

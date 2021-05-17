@@ -16,7 +16,7 @@ Once built, start the docker image on a host that has sufficient bandwidth to ha
 ```
 docker run -it -p 80:80 -p 1935:1935 \
   --env MULTISTREAMING_PASSWORD=__made_up_password__ \
-  -v /path/to/my-rtmp-config.json:/rtmp-configuration.json
+  -v /path/to/my-rtmp-config.json:/rtmp-configuration.json \
   multistreaming-server:latest
 ```
 

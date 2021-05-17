@@ -4,6 +4,7 @@ All notable changes to this project will be documented in this file.
 ## [Unreleased]
 ### Changed
 * Bumped jinja2 from 2.11.2 to 2.11.3
+* Updated `apk` to use the `latest-stable` rather than `edge` as `edge` appears to not be updatd.
 
 ## [0.4.1]
 ### Changed

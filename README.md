@@ -64,6 +64,18 @@ Here is an example of the JSON configuration file:
   },
   "rebroadcastList": [
     {
+      "name": "linkedin via restream",
+      "platform": "restream",
+      "streamKey": "whatever",
+      "transcode": {
+        "pixels": "1920x1080",
+        "videoBitRate": "3500k",
+        "videoKeyFrameSecs": 2,
+        "audioBitRate": "160k",
+        "audioSampleRate": 44100
+       }
+    },
+    {
       "name": "youtube",
       "platform": "youtube",
       "streamKey": "abc123"

@@ -27,6 +27,8 @@ RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM = (
     '-c:a libfdk_aac -b:a %%AUDIO_BIT_RATE%% -ar %%AUDIO_SAMPLE_RATE%%'
 )
 
+# https://support.restream.io/en/articles/73108-best-settings
+PUSH_URL_RESTREAM = 'rtmp://live.restream.io/live/%%STREAM_KEY%%' # Restream let's you stream to LinkedIn Live
 PUSH_URL_YOUTUBE = 'rtmp://a.rtmp.youtube.com/live2/%%STREAM_KEY%%'
 PUSH_URL_FACEBOOK = 'rtmp://127.0.0.1:19350/rtmp/%%STREAM_KEY%%'
 PUSH_URL_TWITCH = 'rtmp://live-cdg.twitch.tv/app/%%STREAM_KEY%%'
@@ -60,7 +62,10 @@ def generatePlatormPushURL(block_config):
         print('ERROR - Application block is missing platform element.', file=sys.stderr)
         exit(1)
     push_url = 'push-it-real-good'
-    if block_config['platform'] == 'youtube':
+    
+    if block_config['platform'] == 'restream':
+        push_url = PUSH_URL_RESTREAM.replace('%%STREAM_KEY%%', block_config['streamKey'])
+    elif block_config['platform'] == 'youtube':
         push_url = PUSH_URL_YOUTUBE.replace('%%STREAM_KEY%%', block_config['streamKey'])
     elif block_config['platform'] == 'facebook':
         # must push through stunnel. Push through Facebook stunnel port.

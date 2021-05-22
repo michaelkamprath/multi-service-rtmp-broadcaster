@@ -7,13 +7,13 @@ The instructions here assume you are running on Linux. With some modification of
 
 The first step is to build the docker file. After you clone this repository, `cd` into and and issue:
 
-```
+```sh
 docker build -t multistreaming-server ./multistreaming-server/
 ```
 
 Once built, start the docker image on a host that has sufficient bandwidth to handle all the rebroadcasting you will do:
 
-```
+```sh
 docker run -it -p 80:80 -p 1935:1935 \
   --env MULTISTREAMING_PASSWORD=__made_up_password__ \
   -v /path/to/my-rtmp-config.json:/rtmp-configuration.json \
@@ -52,7 +52,7 @@ You must also create and JSON file with the RTMP rebroadcasting configuration yo
 
 
 Here is an example of the JSON configuration file:
-```
+```json
 {
   "endpoint": "live",
   "transcodeProfiles": {

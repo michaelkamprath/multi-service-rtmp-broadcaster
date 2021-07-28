@@ -29,7 +29,7 @@ RTMP_TRANSCODE_AUDIO_OPTS_CUSTOM = (
 
 # https://support.restream.io/en/articles/73108-best-settings
 PUSH_URL_RESTREAM = 'rtmp://live.restream.io/live/%%STREAM_KEY%%' # Restream let's you stream to LinkedIn Live
-PUSH_URL_YOUTUBE = 'rtmp://a.rtmp.youtube.com/live2/%%STREAM_KEY%%'
+PUSH_URL_YOUTUBE = 'rtmp://127.0.0.1:19352/live2/%%STREAM_KEY%%'
 PUSH_URL_FACEBOOK = 'rtmp://127.0.0.1:19350/rtmp/%%STREAM_KEY%%'
 PUSH_URL_TWITCH = 'rtmp://live-cdg.twitch.tv/app/%%STREAM_KEY%%'
 PUSH_URL_INSTAGRAM = 'rtmp://127.0.0.1:19351/rtmp/%%STREAM_KEY%%'

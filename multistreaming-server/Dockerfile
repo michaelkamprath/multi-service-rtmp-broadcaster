@@ -42,6 +42,7 @@ COPY supervisord.conf /etc/supervisor/supervisord.conf
 COPY stunnel-conf/etc-default-stunnel /etc/default/stunnel
 COPY stunnel-conf/etc-stunnel-conf.d-fb.conf /etc/stunnel/conf.d/fb.conf
 COPY stunnel-conf/etc-stunnel-conf.d-ig.conf /etc/stunnel/conf.d/ig.conf
+COPY stunnel-conf/etc-stunnel-conf.d-yt.conf /etc/stunnel/conf.d/yt.conf
 COPY stunnel-conf/etc-stunnel-stunnel.conf /etc/stunnel/stunnel.conf
 
 COPY index.html /usr/local/nginx/html/

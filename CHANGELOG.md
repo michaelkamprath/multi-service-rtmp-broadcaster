@@ -2,6 +2,8 @@
 All notable changes to this project will be documented in this file.
 
 ## [Unreleased]
+* Bummped various package versions.
+* Added python `requirements.txt` file for UpCloud deployment script.
 
 ## [0.4.2]
 ### Added

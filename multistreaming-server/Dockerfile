@@ -1,12 +1,12 @@
-FROM jrottenberg/ffmpeg:4.4-alpine
+FROM jrottenberg/ffmpeg:5-alpine
 MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
 
 ARG NGINX_VERSION=1.20.0
 ARG RTMP_REPO=uizaio
 ARG RTMP_MODULE_VERSION=1.4.0.4
 ARG TINI_VERSION=v0.19.0
-ARG SUPERVISORD_VERSION=4.2.2
-ARG PIPENV_PACKAGE_VERSION=2020.11.15
+ARG SUPERVISORD_VERSION=4.2.4
+ARG PIPENV_PACKAGE_VERSION=2022.1.8
 
 RUN set -x \
  && addgroup -S stunnel \
@@ -14,7 +14,7 @@ RUN set -x \
  && echo "//dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/" >> /etc/apk/repositories \
  && apk update \
  && apk add --no-cache --update stunnel ca-certificates \
- && apk add --no-cache pcre openssl stunnel gettext python3 \
+ && apk add --no-cache pcre openssl stunnel gettext python3 py3-pip \
  && apk add --no-cache --virtual build-deps build-base pcre-dev openssl-dev zlib zlib-dev wget make \
  && wget -O nginx-${NGINX_VERSION}.tar.gz http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
  && tar -zxvf nginx-${NGINX_VERSION}.tar.gz \
@@ -48,6 +48,7 @@ COPY index.html /usr/local/nginx/html/
 COPY nginx-conf/nginx.conf /base-nginx.conf
 COPY launch-nginx-server.sh launch-nginx-server.sh
 COPY rtmp-conf-generator.py nginx-template.conf.j2 /
+RUN touch /rtmp-configuration.json && chmod 744 /rtmp-configuration.json
 
 EXPOSE 1935
 EXPOSE 80

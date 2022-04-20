@@ -1,3 +1,5 @@
+[![Docker Image CI](https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/actions/workflows/docker-image.yml/badge.svg)](https://github.com/michaelkamprath/multi-service-rtmp-broadcaster/actions/workflows/docker-image.yml)
+
 # Multi-Service RTMP Broadcaster
 
 The goal of this project is to create a Docker-deployed service that will allow you to easily broadcast a live stream to multiple services (YouTube, Twitch, Facebook, etc) at the same time. This stream rebroadcaster is designed to be used by a single source / user.

@@ -33,7 +33,7 @@ RUN set -x \
  && chown stunnel:stunnel /var/run/stunnel/ \
  && wget -O /tini https://github.com/krallin/tini/releases/download/${TINI_VERSION}/tini-static \
  && chmod +x /tini \
- && pip3 install supervisor==${SUPERVISORD_VERSION} pipenv==${PIPENV_PACKAGE_VERSION}
+ && pip3 install --ignore-installed distlib supervisor==${SUPERVISORD_VERSION} pipenv==${PIPENV_PACKAGE_VERSION}
 
 COPY Pipfile Pipfile.lock /
 RUN  pipenv install --system --deploy

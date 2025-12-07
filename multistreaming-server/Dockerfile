@@ -1,5 +1,6 @@
 FROM jrottenberg/ffmpeg:5-alpine
-MAINTAINER Michael Kamprath "https://github.com/michaelkamprath"
+LABEL org.opencontainers.image.authors="michael@kamprath.net"
+LABEL org.opencontainers.image.url="https://github.com/michaelkamprath/multi-service-rtmp-broadcaster"
 
 ARG NGINX_VERSION=1.20.0
 ARG RTMP_REPO=uizaio

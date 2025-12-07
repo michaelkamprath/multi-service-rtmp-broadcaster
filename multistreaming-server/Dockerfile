@@ -14,7 +14,7 @@ RUN set -x \
  && echo "//dl-cdn.alpinelinux.org/alpine/latest-stable/main/x86_64/" >> /etc/apk/repositories \
  && apk update \
  && apk add --no-cache --update stunnel ca-certificates \
- && apk add --no-cache pcre openssl stunnel gettext python3 py3-pip \
+ && apk add --no-cache pcre openssl stunnel gettext python3 py3-pip py3-markupsafe \
  && apk add --no-cache --virtual build-deps build-base pcre-dev openssl-dev zlib zlib-dev wget make \
  && wget -O nginx-${NGINX_VERSION}.tar.gz http://nginx.org/download/nginx-${NGINX_VERSION}.tar.gz \
  && tar -zxvf nginx-${NGINX_VERSION}.tar.gz \
